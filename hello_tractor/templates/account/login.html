@@ -1,44 +1,56 @@
-{% extends "account/base_entrance.html" %}
 {% load static %}
 {% load i18n %}
 {% load allauth account %}
-{% block head_title %}
-    {% trans "Sign In" %}
-{% endblock head_title %}
+
+
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock extra_head %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <div class="login-container">
-        <h1 class="login-header">{% trans "Sign In" %}</h1>
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>{% trans "Welcome Back" %}</h1>
+            <p>{% trans "Sign in to your account" %}</p>
+        </div>
 
         {% if not SOCIALACCOUNT_ONLY %}
-            <p class="login-text">{% trans "If you have not created an account yet, then please" %}
-                <a href="{{ signup_url }}" class="link">{% trans "sign up" %}</a>
-                {% trans "first." %}
-            </p>
+            <div class="auth-form-container">
+                {% url 'account_login' as login_url %}
+                <form method="post" class="auth-form" action="{{ login_url }}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {{ redirect_field }}
+                    <button type="submit" class="btn-primary">
+                        <span>{% trans "Sign In" %}</span>
+                    </button>
+                </form>
 
-            {% url 'account_login' as login_url %}
-            <form method="post" class="login-form" action="{{ login_url }}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                {{ redirect_field }}
-                <button type="submit" class="login-button">{% trans "Sign In" %}</button>
-            </form>
+                <p class="auth-links">
+                    {% trans "Don't have an account?" %}
+                    <a href="{{ signup_url }}" class="text-link">{% trans "Sign up" %}</a>
+                </p>
+            </div>
         {% endif %}
         
         {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
-            <hr class="divider">
-            <div class="alternate-login">
-                <h2 class="alternate-login-header">{% trans "Or log in with" %}</h2>
+            <div class="auth-divider">
+                <span>{% trans "or continue with" %}</span>
+            </div>
 
+            <div class="auth-alternatives">
                 {% if PASSKEY_LOGIN_ENABLED %}
-                    <button type="submit" form="mfa_login" id="passkey_login" class="social-login-btn">
+                    <button type="submit" form="mfa_login" id="passkey_login" class="btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 16v-1a5 5 0 0 1 5-5h9a5 5 0 0 1 5 5v1"/><circle cx="12" cy="4" r="3"/></svg>
                         {% trans "Sign in with a passkey" %}
                     </button>
                 {% endif %}
 
                 {% if LOGIN_BY_CODE_ENABLED %}
-                    <button href="{{ request_login_code_url }}" class="social-login-btn">
+                    <button href="{{ request_login_code_url }}" class="btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 7L12 13 2 7"/><path d="M2 17V7"/><path d="M22 7V17"/><path d="M2 7L12 13"/><path d="M12 13L22 7"/></svg>
                         {% trans "Mail me a sign-in code" %}
                     </button>
                 {% endif %}
@@ -46,17 +58,16 @@
         {% endif %}
         
         {% if SOCIALACCOUNT_ENABLED %}
-            <div class="social-login">
+            <div class="social-auth">
                 {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
             </div>
         {% endif %}
     </div>
+</div>
 {% endblock content %}
 
 {% block extra_body %}
-    {{ block.super }}
     {% if PASSKEY_LOGIN_ENABLED %}
         {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
     {% endif %}
 {% endblock %}
-

@@ -5,7 +5,7 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin_dashboard'),
     # path('', views.admin_dashboard, name='admin_dashboard'),
     path('accounts/', include('allauth.urls')),
 ]

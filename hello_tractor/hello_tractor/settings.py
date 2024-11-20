@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    "phonenumber_field",
 
     # User defined Apps
     'main',
@@ -72,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #my defined middleware
+    'hello_tractor.middleware.DynamicRedirectMiddleware',
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
     'django_hosts.middleware.HostsResponseMiddleware'
@@ -103,12 +106,26 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SITE_ID = 1
 
-# ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-# ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_NOTIFICATIONS = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-LOGIN_REDIRECT_URL = '/' 
-LOGOUT_REDIRECT_URL = '/'
+# from django_hosts import reverse
+
+# def dynamic_login_redirect_url(request):
+#     """Dynamically determine LOGIN_REDIRECT_URL based on the host."""
+#     if request.get_host() == 'admin.localhost:8000':
+#         return reverse('admin_dashboard', host='admin')  # Redirect to admin dashboard
+#     elif request.get_host() == 'sellers.localhost:8000':
+#         return reverse('seller_dashboard', host='sellers')  # Redirect to user dashboard
+#     else:
+#         return reverse('homepage', host='main')  # Default fallback
+
+# LOGIN_REDIRECT_URL = dynamic_login_redirect_url
+# LOGOUT_REDIRECT_URL = dynamic_login_redirect_url
+
+
 
 ROOT_URLCONF = 'hello_tractor.urls'
 ROOT_HOSTCONF = 'hello_tractor.hosts'
@@ -134,6 +151,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hello_tractor.wsgi.application'
 
+AUTH_USER_MODEL = 'main.CustomUser'
 
 # Get the DATABASE_URL from the environment
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -216,4 +234,19 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+PHONENUMBER_DEFAULT_REGION = 'KE'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('GMAIL_ACCOUNT', '')
+EMAIL_HOST_PASSWORD = os.getenv('GMAIL_PASSWORD','')
+
+ADMINS = [('Paulo','pauloakello56@gmail.com')]
+MANAGERS = ADMINS
+ 
+
 
