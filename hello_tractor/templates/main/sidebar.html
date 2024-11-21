@@ -1,0 +1,15 @@
+{% load static %}
+{% load hosts %}
+<aside class="sidebar">
+    <nav class="aside-nav">
+      <ul>
+        <li><a href="{% host_url 'admin_dashboard' host 'admin' %}">Dashboard</a></li>
+        <li><a href="{% host_url 'admin_sellers_dashboard' host 'admin' %}">Sellers</a></li>
+        <li><a href="{% host_url 'admin_users_dashboard' host 'admin' %}">Users</a></li>
+        <li><a href="{% host_url 'admin_tractors_dashboard' host 'admin' %}">Tractors</a></li>
+        <li><a href="{% host_url 'admin_brands_dashboard' host 'admin' %}">Brands</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  

@@ -1,3 +1,26 @@
+:root {
+  --background: hsl(218 65% 100%);
+  --foreground: hsl(218 69% 2%);
+  --muted: hsl(188 35% 92%);
+  --muted-foreground: hsl(188 11% 36%);
+  --popover: hsl(0 0% 99%);
+  --popover-foreground: hsl(218 69% 1%);
+  --card: hsl(0 0% 99%);
+  --card-foreground: hsl(218 69% 1%);
+  --border: hsl(218 10% 95%);
+  --input: hsl(218 10% 95%);
+  --primary: hsl(13.8 100% 60.78%);
+  --primary-foreground: hsl(218 47% 99%);
+  --secondary: hsl(300 43.28% 26.27%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --accent: hsl(193.47 73.13% 39.41%);
+  --accent-foreground: hsl(248 47% 99%);
+  --destructive: hsl(13 98% 27%);
+  --destructive-foreground: hsl(13 98% 87%);
+  --ring: hsl(218 47% 39%);
+  --radius: 0.5rem;
+}
+
 /* Search Section */
 .search-sec {
     display: flex;
@@ -22,7 +45,7 @@
 .search-sec input {
     flex: 1; 
     padding: 10px;
-    border: 1px solid hsl(var(--muted-foreground));
+    border: 1px solid var(--muted-foreground);
     min-width: 200px; 
     max-width: 600px; 
     height: 50px;
@@ -31,8 +54,8 @@
 
 .search-sec button {
     padding: 10px 20px;
-    background-color: hsl(var(--primary));
-    color: hsl(var(--foreground));
+    background-color: var(--primary);
+    color: var(--foreground);
     border: none;
     cursor: pointer;
     height: 50px;
@@ -42,7 +65,7 @@
 }
 
 .search-sec button:hover {
-    background-color: hsl(var(--accent));
+    background-color: var(--accent);
 }
 
 /* Hero Content */
@@ -56,12 +79,12 @@
 .hero-content h1 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 
 .hero-content p {
     font-size: 1.2rem;
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
 }
 
 /* Featured Deals Layout */
@@ -81,10 +104,10 @@ a.deal-link {
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 15px;
-    background-color: hsl(var(--card));
+    background-color: var(--card);
     transition: transform 0.3s ease-in-out;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -104,12 +127,12 @@ a.deal-link {
 .deal h3 {
     font-size: 1.5rem;
     margin: 10px 0;
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 
 .deal .meta {
     font-size: 0.9rem;
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
     margin-bottom: 10px;
 }
 
@@ -133,7 +156,7 @@ a.deal-link {
 }
 
 .pricing .featured {
-    background-color: hsl(var(--primary));
+    background-color: var(--primary);
     color: #fff;
     padding: 5px 10px;
     font-size: 0.9rem;
@@ -143,7 +166,7 @@ a.deal-link {
 .pricing .price {
     font-size: 1rem;
     font-weight: bold;
-    color: hsl(var(--foreground));
+    color: var(--foreground);
 }
 
 /* Hover Effect */
@@ -161,16 +184,16 @@ a.deal-link {
 
 .why-choose-us h2 {
     font-size: 2rem;
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 
 .why-choose-us span {
-    color: hsl(var(--accent));
+    color: var(--accent);
 }
 
 .why-choose-us p {
     font-size: 1.1rem;
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
 }
 
 .choose-cards {
@@ -186,7 +209,7 @@ a.deal-link {
     background: white;
     padding: 20px;
     width: 300px;
-    border: 1px solid hsl(var(--border));
+    border: 1px solid var(--border);
     border-radius: var(--radius);
     text-align: left;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -194,12 +217,12 @@ a.deal-link {
 
 .choose-card .icon {
     font-size: 2rem;
-    color: hsl(var(--primary));
+    color: var(--primary);
     margin-bottom: 10px;
 }
 
 .choose-card h3 {
-    color: hsl(var(--primary));
+    color: var(--primary);
     font-size: 1.3rem;
     margin-bottom: 10px;
 }
@@ -219,15 +242,15 @@ a.deal-link {
 .categories-header h1 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 
 .categories-header span {
-    color: hsl(var(--accent));
+    color: var(--accent);
 }
 
 .categories-header p {
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
 }
 
 .categories-grid {
@@ -268,7 +291,7 @@ a.deal-link {
     position: absolute;
     top: 1rem;
     left: 1rem;
-    background: hsl(var(--primary));
+    background: var(--primary);
     color: white;
     padding: 0.25rem 1rem;
     border-radius: 2rem;
@@ -305,11 +328,11 @@ a.deal-link {
   
   .contact-header h1 {
     font-size: 2.5rem;
-    color: hsl(var(--primary));
+    color: var(--primary);
   }
   
   .contact-header span {
-    color: hsl(var(--accent));
+    color: var(--accent);
   }
   
   .contact-header p {
@@ -321,7 +344,7 @@ a.deal-link {
   .popular-brands {
     display: flex;
     justify-content: space-between;
-    background: hsl(var(--primary));
+    background: var(--primary);
     padding: 10px 20px;
     margin-bottom: 24px;
     width: 100%;
@@ -426,24 +449,22 @@ a.deal-link {
     font-size: 1rem;
   }
   
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .contact-sec-div {
-      grid-template-columns: 1fr;
-    }
-  
-    .popular-brands {
-      flex-wrap: wrap;
-    }
-  
-    .popular-brands div {
-      flex: 0 0 50%;
-    }
-  }
-  
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
+
+  .contact-sec-div {
+    grid-template-columns: 1fr;
+  }
+
+  .popular-brands {
+    flex-wrap: wrap;
+  }
+
+  .popular-brands div {
+    flex: 0 0 50%;
+  }
     
     .featured-deals {
         grid-template-columns: 1fr;

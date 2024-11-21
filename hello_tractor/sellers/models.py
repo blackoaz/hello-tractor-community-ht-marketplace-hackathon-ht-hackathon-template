@@ -60,8 +60,17 @@ class Tractor(Common):
     condition = models.CharField(max_length=30, blank=False, null=False, choices=CONDITION, default='Old')
     fuel_type = models.CharField(max_length=30, blank=False, null=False, choices=FUEL_TYPE, default='Petrol')
     transmission = models.CharField(max_length=10, blank=False, null=False, choices=TRANSMISSION, default='Manual')
+    Tractor_description = models.TextField()
+    Wheel_Drive = models.CharField(max_length=30, blank=False, null=False)
+    horse_power = models.PositiveIntegerField()
+    Number_of_cylinders = models.PositiveIntegerField()
+    mileage = models.PositiveIntegerField()
+    forward_speed = models.PositiveIntegerField()
+    lifting_capacity = models.PositiveIntegerField()
+    
     is_featured = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
+
 
     def __str__(self):
         return f"{self.tractor_name} - {self.model} ({self.year_of_manufucture})"
@@ -77,7 +86,7 @@ class Tractor(Common):
 
 
 class TractorImage(models.Model):
-    tractor = models.ForeignKey('Tractor', on_delete=models.CASCADE, related_name='images')
+    tractor = models.ForeignKey('Tractor', on_delete=models.CASCADE, related_name='images',null=False,blank=False)
     mongo_filename = models.CharField(max_length=255)
 
     def __str__(self):

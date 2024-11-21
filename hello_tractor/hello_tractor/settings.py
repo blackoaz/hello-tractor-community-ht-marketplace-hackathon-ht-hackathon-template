@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from urllib.parse import urlparse
 from dotenv import load_dotenv
+from django_hosts import reverse
 
 load_dotenv() 
 
@@ -77,6 +78,7 @@ MIDDLEWARE = [
     'hello_tractor.middleware.DynamicRedirectMiddleware',
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
@@ -111,16 +113,15 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-# from django_hosts import reverse
 
 # def dynamic_login_redirect_url(request):
 #     """Dynamically determine LOGIN_REDIRECT_URL based on the host."""
 #     if request.get_host() == 'admin.localhost:8000':
-#         return reverse('admin_dashboard', host='admin')  # Redirect to admin dashboard
+#         return reverse('admin_dashboard', host='admin')
 #     elif request.get_host() == 'sellers.localhost:8000':
-#         return reverse('seller_dashboard', host='sellers')  # Redirect to user dashboard
+#         return reverse('seller_dashboard', host='sellers')
 #     else:
-#         return reverse('homepage', host='main')  # Default fallback
+#         return reverse('homepage', host='main')
 
 # LOGIN_REDIRECT_URL = dynamic_login_redirect_url
 # LOGOUT_REDIRECT_URL = dynamic_login_redirect_url
@@ -129,7 +130,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ROOT_URLCONF = 'hello_tractor.urls'
 ROOT_HOSTCONF = 'hello_tractor.hosts'
-DEFAULT_HOST = 'main'
+DEFAULT_HOST = 'root'
+PARENT_HOST = 'localhost:8000'
+
 
 TEMPLATES = [
     {

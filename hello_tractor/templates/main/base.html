@@ -1,4 +1,5 @@
 {% load static %}
+{% load hosts %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,66 +9,56 @@
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/vehicle_details.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
     <title>{% block title %}Hello Tractor{% endblock %}</title>
 </head>
 
 <body>
     <section class="navigation-sec">
-        <!-- <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <img src="https://api.iconify.design/lucide:car.svg?color=%2322c55e" alt="Logo" class="logo-icon">
-                <span>MyMoti</span>
-            </div>
-            <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#">Vehicles</a>
-                <a href="#">Dealers</a>
-                <a href="#">Garage & Carwash</a>
-            </div>
-            <button class="sell-button">Sell a Vehicle</button>
-        </div>
-    </nav> -->
-    <nav>
-        <div class="header-sec">
-            <div class="logo">
-                <img src="https://api.iconify.design/lucide:tractor.svg?color=%23e23333" alt="" srcset="" class="logo-icon">
-                <span>My Logo</span>
-            </div>
-            <div class="nav-container">
-                <!-- Hamburger Menu Icon -->
-                <div class="hamburg-menu">
-                    <i class="fa-solid fa-bars"></i>
+        <nav>
+            <div class="header-sec">
+                <div class="logo">
+                    <img src="https://api.iconify.design/lucide:tractor.svg?color=%23e23333" alt="" srcset=""
+                        class="logo-icon">
+                    <span>My Logo</span>
                 </div>
-    
-                <!-- Navigation Links and Sell Button -->
-                <div class="menu-content">
-                    <ul class="nav-links">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="#">Tractors</a></li>
-                        <li><a href="#">Dealers</a></li>
-                        {% if user.is_authenticated %}
+                <div class="nav-container">
+                    <!-- Hamburger Menu Icon -->
+                    <div class="hamburg-menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+
+                    <!-- Navigation Links and Sell Button -->
+                    <div class="menu-content">
+                        <ul class="nav-links">
+
+                            <li><a href="{% host_url 'homepage' host 'root' %}">Home</a></li>
+                            <li><a href="#">Tractors</a></li>
+                            <li><a href="#">Dealers</a></li>
+                            {% if user.is_authenticated %}
                             <li><a href="{% url 'account_logout' %}">Logout</a></li>
-                        {% else %}
+                            {% else %}
                             <li><a href="{% url 'account_login' %}">Login</a></li>
                             <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-                        {% endif %}
-                    </ul>
-                    <div class="sell-btn">
-                        <button type="button">Sell a Tractor</button>
+                            {% endif %}
+                        </ul>
+                        <div class="sell-btn">
+
+                            <a href="{% host_url 'seller_dashboard' host 'sellers' %}"><button type="button">Sell a
+                                    Tractor</button></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </nav>
-    
+        </nav>
+
     </section>
+        {% block content %}
 
-    {% block content %}
-
-    {% endblock %}
-
-    {% include 'main/footer.html' %}
+        {% endblock %}
+    
+    
+    
     <script>
         console.log('Hello from main.js');
         document.addEventListener('DOMContentLoaded', () => {
@@ -83,6 +74,8 @@
     <script src="https://kit.fontawesome.com/11055935d8.js" crossorigin="anonymous"></script>
     <!-- <script src="{% static 'js/main.js' %}"></script> -->
     <script src="{% static 'js/main.js' %}?v=1"></script>
+
+    {% include 'main/footer.html' %}
 
 </body>
 

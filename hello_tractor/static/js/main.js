@@ -11,5 +11,19 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+  // admin dashboard
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.querySelector('.toggle-sidebar-btn');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (toggleButton && sidebar) {
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('visible');
+        });
+    }
+});
+
+    
   
 

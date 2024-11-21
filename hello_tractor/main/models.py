@@ -9,3 +9,6 @@ class CustomUser(AbstractUser):
             self.is_seller = True
         super().save(*args, **kwargs)
 
+
+
+

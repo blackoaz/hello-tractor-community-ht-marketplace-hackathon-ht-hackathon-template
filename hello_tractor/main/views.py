@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from pathlib import Path
+
+from django.urls import reverse
 from .mongo_db import fs, save_images_from_directory
 from sellers.models import Tractor
 from django.db.models import F 

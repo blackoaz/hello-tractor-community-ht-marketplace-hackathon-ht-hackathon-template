@@ -22,6 +22,7 @@ def sellers_homepage(request):
 @login_required
 def dashboard(request):
     if not request.user.is_seller:
+        # return HttpResponseForbidden("You are not authorized")
         return redirect('sellers_homepage')
     return render(request, 'sellers/dashboard.html')
 

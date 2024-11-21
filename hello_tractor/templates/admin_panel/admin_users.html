@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load hosts %}
+
+{% block title %}
+<title>Hello Tractor - admin-sellers </title>
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dashboard-container">
+
+    <div class="dashboard-body">
+        {% include 'main/sidebar.html' %}
+        <main>
+            <h3>Admin Sec Users</h3>
+        </main>
+    </div>
+</section>
+
+{% endblock %}
+
+{% include 'main/footer.html' %}

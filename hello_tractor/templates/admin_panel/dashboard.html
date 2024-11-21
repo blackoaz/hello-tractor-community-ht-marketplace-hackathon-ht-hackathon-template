@@ -1,7 +1,57 @@
-{% extends 'main/base.html'%}
+{% extends 'main/base.html' %}
 {% load static %}
+{% load hosts %}
+
+{% block title %}
+<title>Hello Tractor - admin </title>
+{% endblock %}
+
+{% block css %} 
+<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+{% endblock %}
 
 
 {% block content %}
- <h1>Admin Dashboard</h1>
+<section class="dashboard-container">
+
+    <div class="dashboard-body">
+        {% include 'main/sidebar.html' %}
+        <main>
+            <div class="admin-dash">
+                <div class="data-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Tractors</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Number of tractors</p>
+                            <h2>{{ tractors }}</h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Users</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Number of users</p>
+                            <h2>{{ users }}</h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Sellers</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Number of sellers</p>
+                            <h2>{{ sellers }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</section>
+
 {% endblock %}
+
+{% include 'main/footer.html' %}

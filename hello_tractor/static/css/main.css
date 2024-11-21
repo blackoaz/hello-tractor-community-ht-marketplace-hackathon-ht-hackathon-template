@@ -9,114 +9,46 @@ body {
     line-height: 1.5;
     background-color: #f9fafb;
     color: #1f2937;
+    
 }
 
 :root {
-    --background: 218 65% 100%;
-    --foreground: 218 69% 2%;
-    --muted: 188 35% 92%;
-    --muted-foreground: 188 11% 36%;
-    --popover: 0 0% 99%;
-    --popover-foreground: 218 69% 1%;
-    --card: 0 0% 99%;
-    --card-foreground: 218 69% 1%;
-    --border: 218 10% 95%;
-    --input: 218 10% 95%;
-    --primary: 13.8 100% 60.78%;
-    --primary-foreground: 218 47% 99%;
-    --secondary: 300 43.28% 26.27%;
-    --secondary-foreground: 0 0% 100%;
-    --accent: 193.47 73.13% 39.41%;
-    --accent-foreground: 248 47% 99%;
-    --destructive: 13 98% 27%;
-    --destructive-foreground: 13 98% 87%;
-    --ring: 218 47% 39%;
+    --background: hsl(218 65% 100%);
+    --foreground: hsl(218 69% 2%);
+    --muted: hsl(188 35% 92%);
+    --muted-foreground: hsl(188 11% 36%);
+    --popover: hsl(0 0% 99%);
+    --popover-foreground: hsl(218 69% 1%);
+    --card: hsl(0 0% 99%);
+    --card-foreground: hsl(218 69% 1%);
+    --border: hsl(218 10% 95%);
+    --input: hsl(218 10% 95%);
+    --primary: hsl(13.8 100% 60.78%);
+    --primary-foreground: hsl(218 47% 99%);
+    --secondary: hsl(300 43.28% 26.27%);
+    --secondary-foreground: hsl(0 0% 100%);
+    --accent: hsl(193.47 73.13% 39.41%);
+    --accent-foreground: hsl(248 47% 99%);
+    --destructive: hsl(13 98% 27%);
+    --destructive-foreground: hsl(13 98% 87%);
+    --ring: hsl(218 47% 39%);
     --radius: 0.5rem;
 }
 
 body {
     font-family: Arial, sans-serif;
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--background);
+    color: var(--foreground);
 }
 
 .navigation-sec {
-    background-color: hsl(var(--primary-foreground));
+    background-color: var(--primary-foreground);
     padding: 10px 0;
 }
 
-/* 
 nav {
-    background-color: white;
+    background-color: var(--primary-foreground);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.nav-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.logo-icon {
-    width: 32px;
-    height: 32px;
-}
-
-.logo span {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.nav-links {
-    display: none;
-}
-
-.nav-links a {
-    color: #4b5563;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-}
-
-.nav-links a:hover {
-    color: #1f2937;
-}
-
-.sell-button {
-    background-color: white;
-    color: #22c55e;
-    border: 2px solid #22c55e;
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-
-.sell-button:hover {
-    background-color: #f0fdf4;
-}
- */
-
-nav {
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center;
-    /* max-width: 1280px; 
-    margin: 0 auto; */
-    background-color: hsl(var(--primary-foreground));
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    /* position: sticky;
-    top: 0;
-    z-index: 100;  */
 }
 
 
@@ -135,7 +67,7 @@ nav {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: hsl(var(--primary));
+    color: var(--primary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -159,18 +91,18 @@ nav {
 
 .nav-links li {
     font-size: 1rem;
-    color: hsl(var(--muted-foreground));
+    color: var(--muted-foreground);
 }
 
 .nav-links a {
     text-decoration: none;
-    color: hsl(var(--primary));
+    color: var(--primary);
     font-weight: bold;
     transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: hsl(var(--accent));
+    color: var(--accent);
 }
 
 .nav-links li:hover {
@@ -184,8 +116,8 @@ nav {
 
 .sell-btn button {
     padding: 10px 20px;
-    background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    background-color: var(--primary);
+    color: var(--primary-foreground);
     border: none;
     border-radius: var(--radius);
     cursor: pointer;
@@ -194,7 +126,7 @@ nav {
 }
 
 .sell-btn button:hover {
-    background-color: hsl(var(--accent));
+    background-color: var(--accent);
 }
 
 /* Default (Desktop) Styles */
@@ -216,7 +148,7 @@ nav {
     display: none;
     cursor: pointer;
     font-size: 1.5rem;
-    color: hsl(var(--primary));
+    color: var(--primary);
 }
 
 /* Mobile Styles */
@@ -224,7 +156,7 @@ nav {
     .menu-content {
         display: none;
         flex-direction: column;
-        background-color: hsl(var(--primary-foreground));
+        background-color: var(--primary-foreground);
         position: absolute;
         top: 0; 
         left: 0;
