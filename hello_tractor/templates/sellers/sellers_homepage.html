@@ -1,9 +1,41 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load hosts %}
 
 
-{% block title %}Hello Tractor - Sellers{% endblock title %}
+
+{% block title %}Hello Tractor - Become a Seller{% endblock title %}
+
 
 {% block content %}
-
-{% endblock %}
+<link rel="stylesheet" href="{% static 'css/sellers_register.css' %}">
+<section class="cta-background">
+    <div class="cta-page">
+        <div class="cta-header">
+            <h1>Connect with Customers Looking to Buy Tractors</h1>
+            <p>Join our platform and connect with buyers from all over the region. It's easy to get started!</p>
+        </div>
+        <div class="cta-content">
+            <div class="cta-steps">
+                <h2>How It Works</h2>
+                <ol>
+                    <li>Register as a seller using our quick and easy form.</li>
+                    <li>Upload details and photos of your tractors.</li>
+                    <li>Reach thousands of buyers on our platform.</li>
+                </ol>
+            </div>
+            <div class="cta-actions">
+                {% if request.user.is_authenticated and request.user.is_seller %}
+                <a href="#" class="btn btn-secondary">Upload Tractor</a>
+                {% elif is_a_registered_seller and not request.user.is_seller %}
+                <div><strong>You are a registered seller but your seller Account is not enabled
+                    Contact Customer Care for Assistance
+                </strong></div>
+                {% else %}
+                <a href="{% url 'seller_registration' %}" class="btn btn-primary">Register Now</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

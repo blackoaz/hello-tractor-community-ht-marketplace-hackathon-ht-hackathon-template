@@ -1,5 +1,24 @@
 console.log('Another Hello from main.js');
+console.log('Another Feature added');
 
+
+// Hiding and showing the navbar
+let lastScrollY = window.scrollY;
+const navbar = document.querySelector('.header-sec');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > lastScrollY) {
+      console.log('Scrolling down');
+        navbar.style.top = '-80px';
+    } else {
+      console.log('Scrolling up');
+        navbar.style.top = '0';
+    }
+    lastScrollY = window.scrollY;
+});
+
+
+// Hiding and showing the navbar on small screens
 document.addEventListener('DOMContentLoaded', () => {
     const deals = document.querySelectorAll('.deal');
   

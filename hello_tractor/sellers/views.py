@@ -4,56 +4,77 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views import View
+from django.utils.decorators import method_decorator
 
 from main.utils.utils import get_image_from_mongo
-from .models import LogoImage, Tractor, TractorImage
+from .models import LogoImage, Seller, Tractor, TractorImage
 from .forms import SellerRegistrationForm, TractorForm, ImageUploadForm
 from main.mongo_db import fs
 
-def seller_login(request):
-    return render(request, 'sellers/login.html')
 
-def seller_logout(request):
-    # Handle logout using django-allauth
-    pass
-
-
+# Homepage section for sellers
 def sellers_homepage(request):
-    return render(request, 'sellers/sellers_homepage.html')
+    is_a_registered_seller = False
+    try:
+        seller = Seller.objects.get(user=request.user)
+        is_a_registered_seller = True
+    except Seller.DoesNotExist:
+        pass
+    context = {
+        'is_a_registered_seller': is_a_registered_seller
+    }
+    
+    return render(request, 'sellers/sellers_homepage.html',context)
 
+# Dashboard section for sellers
 @login_required
 def dashboard(request):
     if not request.user.is_seller:
-        # return HttpResponseForbidden("You are not authorized")
         return redirect('sellers_homepage')
+    else:
+        pass
     return render(request, 'sellers/dashboard.html')
 
-@login_required
+
+# Seller registration view
+@method_decorator(login_required, name='dispatch')
 class SellerRegistrationView(View):
     def get(self, request):
         form = SellerRegistrationForm()
-        return render(request, 'seller_registration.html', {'form': form})
+        return render(request, 'sellers/sellers_registration.html', {'form': form})
 
     def post(self, request):
-        form = SellerRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Save the seller data
-            seller = form.save(commit=False)
-            seller.user = request.user 
-            seller.save()
-
-            # Save the logo to GridFS
-            logo_file = request.FILES['logo']
-            metadata = {'seller_logo_uid': str(seller.id),'category': 'seller_logo'}
-            file_id = fs.put(logo_file, filename=logo_file.name, content_type=logo_file.content_type, metadata=metadata)
-
-            # Save the LogoImage reference
-            LogoImage.objects.create(logo=seller, mongo_filename=str(file_id))
-
-            messages.success(request, "Seller registered successfully!")
-            return redirect('dashboard')  # Redirect to the seller's dashboard
+        if request.user.is_seller:
+            messages.info(request, "You are already registered as a seller!")
+            return redirect('seller_dashboard')
+        elif Seller.objects.filter(user=request.user).exists():
+            messages.error(request, "You are already a registered seller but your acount is not active")
+            return redirect('seller_dashboard')
         else:
-            return render(request, 'seller_registration.html', {'form': form})
+            form = SellerRegistrationForm(request.POST, request.FILES)
+            print(form.is_valid())
+            if form.is_valid():
+                print('form is valid! saving it')
+                name = form.cleaned_data.get('first_name')
+                print(name)
+                seller = form.save(commit=False)
+                seller.user = request.user 
+                seller.save()
+                print('seller added successfully: ',seller.uid)
+                # Save the logo to GridFS
+                logo_file = request.FILES['logo']
+                metadata = {'seller_logo_uid': str(seller.uid),'category': 'seller_logo'}
+                print('metadata: ',metadata)
+                file_id = fs.put(logo_file, filename=logo_file.name, content_type=logo_file.content_type, metadata=metadata)
+
+                # Save the LogoImage reference
+                LogoImage.objects.create(logo=seller, mongo_filename=str(file_id))
+
+                messages.success(request, "Seller registered successfully!")
+                print('seller added successfully: ',seller.uid)
+                return redirect('seller_dashboard')  # Redirect to the seller's dashboard
+            else:
+                return render(request, 'sellers/sellers_registration.html', {'form': form})
         
 
 def serve_logo(request, file_id):

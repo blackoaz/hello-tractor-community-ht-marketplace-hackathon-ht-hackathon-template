@@ -19,9 +19,9 @@ class Seller(Common):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    contact_number = PhoneNumberField(blank=True)
+    contact_number = PhoneNumberField(blank=False, null=False)
     contact_email = models.EmailField()
-    seller_description = models.TextField(blank=True)
+    seller_description = models.TextField(blank=True,null=False)
     is_verified = models.BooleanField(default=False)
 
 
