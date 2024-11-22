@@ -1,0 +1,276 @@
+
+/* Main Content */
+main {
+    max-width: 1280px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.vehicle-container {
+    display: grid;
+    gap: 2rem;
+}
+
+/* Image Section */
+.vehicle-image-section {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.image-container {
+    position: relative;
+    height: 400px;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-controls {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.nav-button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button:hover {
+    background-color: white;
+}
+
+/* Details Section */
+.vehicle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.vehicle-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.meta-info {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    color: #6b7280;
+}
+
+.meta-info span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.meta-info img {
+    width: 16px;
+    height: 16px;
+}
+
+.price {
+    margin-top: 1rem;
+}
+
+.price span {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+/* Specs Card */
+.specs-card, .features-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.specs-card h2, .features-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spec-item img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+}
+
+.label {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.value {
+    font-weight: 500;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.features-grid li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.features-grid img {
+    width: 16px;
+    height: 16px;
+}
+
+/* Footer */
+footer {
+    background-color: #1f2937;
+    color: white;
+    margin-top: 3rem;
+    padding: 3rem 0;
+    margin-top: auto; 
+}
+
+.footer-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.footer-section p, .footer-section ul {
+    color: #9ca3af;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: #9ca3af;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+/* seller card section */
+.seller-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 80%;
+    margin: auto;
+}
+
+.seller-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.seller-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 0.5rem;
+}
+
+.seller-details h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.seller-details p {
+    margin: 0.25rem 0;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.seller-details a {
+    text-decoration: none;
+    color: #1f2937;
+}
+
+.seller-actions {
+    margin-top: 1rem;
+}
+
+.seller-actions .view-profile {
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.seller-actions .view-profile:hover {
+    background-color: #16a34a;
+}
+/* Responsive Design */
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .vehicle-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

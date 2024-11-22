@@ -1,0 +1,47 @@
+{% load static %}
+{% load hosts %}
+
+<!-- Filtered Search Section -->
+<div class="filtered-search">
+    <form method="GET" action="{% host_url 'filtered_tractors' host 'root' %}">
+      <div class="filters">
+        <select name="brand" id="brand" title="Brand">
+          <option value="" selected>Brand</option>
+          
+          {% for brand in brands %}
+          <option value="{{ brand.brand_name }}">{{ brand.brand_name }}</option>
+          {% endfor %}
+        </select>
+        <select name="condition" id="condition" title="Condition">
+          <option value="" selected>Condition</option>
+          <option value="new">New</option>
+          <option value="used">Used</option>
+        </select>
+        <select name="transmission" id="transmission" title="Transmission">
+          <option value="" selected>Transmission</option>
+          <option value="automatic">Automatic</option>
+          <option value="manual">Manual</option>
+        </select>
+        <select name="fuel" id="fuel" title="Fuel">
+          <option value="" selected>Fuel</option>
+          <option value="petrol">Petrol</option>
+          <option value="diesel">Diesel</option>
+          <option value="electric">Electric</option>
+        </select>
+        <select name="year" id="year" title="Year">
+          <option value="" selected>Year</option>
+          <!-- {% for year in years %}
+          <option value="{{ year }}">{{ year }}</option>
+          {% endfor %} -->
+        </select>
+        <div class="price-range">
+          <label for="price">Price Range (KSH)</label>
+          <input type="range" name="price" id="price" min="0" max="25000000" step="100000" value="{{ max_price|default:25000000 }}">
+          <span id="price-value">KSH 0 - 25,000,000</span>
+        </div>
+      </div>
+      <div class="search-container">
+        <button type="submit" class="search-btn">Search</button>
+    </div>
+    </form>
+  </div>

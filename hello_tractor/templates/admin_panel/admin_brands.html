@@ -1,0 +1,57 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load hosts %}
+
+{% block title %}
+    Hello Tractor - admin-brands
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/brand.css' %}">
+<section class="dashboard-container">
+
+    <div class="dashboard-body">
+        {% include 'main/sidebar.html' %}
+        <main>
+            <form action="{% url 'admin_brands_dashboard' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Brand Name -->
+                <div class="brand-name">
+                    <label for="brand_name">Brand Name</label>
+                    <input type="text" name="brand_name" id="brand_name" placeholder="Enter the Brand name" value="{{ form.brand_name.value|default:'' }}">
+                    {% if form.brand_name.errors %}
+                        <p class="error">{{ form.brand_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            
+                <!-- Description -->
+                <div>
+                    <label for="description">Description</label>
+                    <textarea name="description" id="brand-desc" placeholder="Enter Information about Brand">{{ form.description.value|default:'' }}</textarea>
+                    {% if form.description.errors %}
+                        <p class="error">{{ form.description.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            
+                <!-- Image Upload -->
+                <div class="brand-image">
+                    <label for="image_file">Select Brand Image</label>
+                    <input type="file" name="image_file" id="image_file">
+                    {% if form.image_file.errors %}
+                        <p class="error">{{ form.image_file.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            
+                <!-- Submit Button -->
+                <button type="submit">Add Brand</button>
+            </form>
+            
+            
+        </main>
+    </div>
+</section>
+
+{% endblock %}
+
+{% include 'main/footer.html' %}

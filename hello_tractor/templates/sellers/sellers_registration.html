@@ -1,0 +1,28 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <label for="id_first_name">First Name:</label>
+        {{ form.first_name }}
+    </div>
+    <div>
+        <label for="id_last_name">Last Name:</label>
+        {{ form.last_name }}
+    </div>
+    <div>
+        <label for="id_contact_number">Contact Number:</label>
+        {{ form.contact_number }}
+    </div>
+    <div>
+        <label for="id_contact_email">Contact Email:</label>
+        {{ form.contact_email }}
+    </div>
+    <div>
+        <label for="id_seller_description">Description:</label>
+        {{ form.seller_description }}
+    </div>
+    <div>
+        <label for="id_logo">Logo:</label>
+        {{ form.logo }}
+    </div>
+    <button type="submit">Register</button>
+</form>

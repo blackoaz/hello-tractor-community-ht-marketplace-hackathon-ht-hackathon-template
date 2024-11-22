@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from urllib.parse import urlparse
 from dotenv import load_dotenv
+from django_hosts import reverse
 
 load_dotenv() 
 
@@ -52,14 +53,20 @@ INSTALLED_APPS = [
 
     # Optional -- requires install using `django-allauth[socialaccount]`.
     'allauth.socialaccount',
+    'django_hosts',
 
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    "phonenumber_field",
 
     # User defined Apps
+    'main',
+    'sellers',
+    'admin_panel'
 ]
 
 MIDDLEWARE = [
+    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -67,17 +74,30 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #my defined middleware
+    'hello_tractor.middleware.DynamicRedirectMiddleware',
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+    'django_hosts.middleware.HostsRequestMiddleware',
+    'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
 
 # Provider specific settings
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
         'APP': {
             'client_id': '123',
             'secret': '456',
@@ -86,7 +106,35 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+SITE_ID = 1
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_NOTIFICATIONS = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+
+# def dynamic_login_redirect_url(request):
+#     """Dynamically determine LOGIN_REDIRECT_URL based on the host."""
+#     if request.get_host() == 'admin.localhost:8000':
+#         return reverse('admin_dashboard', host='admin')
+#     elif request.get_host() == 'sellers.localhost:8000':
+#         return reverse('seller_dashboard', host='sellers')
+#     else:
+#         return reverse('homepage', host='main')
+
+# LOGIN_REDIRECT_URL = dynamic_login_redirect_url
+# LOGOUT_REDIRECT_URL = dynamic_login_redirect_url
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
+
+
+
 ROOT_URLCONF = 'hello_tractor.urls'
+ROOT_HOSTCONF = 'hello_tractor.hosts'
+DEFAULT_HOST = 'root'
+PARENT_HOST = 'localhost:8000'
+
 
 TEMPLATES = [
     {
@@ -108,25 +156,45 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hello_tractor.wsgi.application'
 
+AUTH_USER_MODEL = 'main.CustomUser'
 
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
+# Get the DATABASE_URL from the environment
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+try:
+    # Attempt to parse the DATABASE_URL for PostgreSQL
+    tmpPostgres = urlparse(os.getenv("DATABASE_URL", ""))
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': tmpPostgres.path.lstrip('/'),
+            'USER': tmpPostgres.username,
+            'PASSWORD': tmpPostgres.password,
+            'HOST': tmpPostgres.hostname,
+            'PORT': tmpPostgres.port or 5432,
+        }
     }
-}
+    # Test connection to PostgreSQL
+    import psycopg2
+    conn = psycopg2.connect(
+        dbname=DATABASES['default']['NAME'],
+        user=DATABASES['default']['USER'],
+        password=DATABASES['default']['PASSWORD'],
+        host=DATABASES['default']['HOST'],
+        port=DATABASES['default']['PORT'],
+    )
+    conn.close()
+except Exception as e:
+    print(f"PostgreSQL connection failed: {e}. Switching to SQLite.")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 
 # Password validation
@@ -163,11 +231,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "/"
+PHONENUMBER_DEFAULT_REGION = 'KE'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv('GMAIL_ACCOUNT', '')
+EMAIL_HOST_PASSWORD = os.getenv('GMAIL_PASSWORD','')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', '')
+
+ADMINS = [('Paulo',os.getenv('ADMIN_EMAIL', ''))]
+MANAGERS = ADMINS
+ 
+
+

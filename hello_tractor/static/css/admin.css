@@ -1,0 +1,112 @@
+/* General container for the whole dashboard */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+.dashboard-body {
+    display: flex;
+    flex: 1; 
+}
+
+aside {
+    width: 250px;
+    background-color: var(--card);
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.aside-nav {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.aside-nav ul li {
+    list-style: none;
+    padding: 1rem;
+    border-bottom: var(--border);
+}
+
+.aside-nav ul li a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* Main content area */
+main {
+    flex: 1;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.admin-dash {
+    padding: 2rem;
+}
+
+.data-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    background-color: var(--accent);
+    padding: 1rem;
+    color: var(--primary-foreground);
+    text-align: center;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.card-body p {
+    font-size: 1rem;
+    color: var(--muted-foreground);
+    margin: 0.5rem 0;
+}
+
+.card-body h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--foreground);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .card-header h3 {
+        font-size: 1rem;
+    }
+
+    .card-body p, .card-body h2 {
+        font-size: 1rem;
+    }
+}
+
