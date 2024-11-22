@@ -125,6 +125,8 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 # LOGIN_REDIRECT_URL = dynamic_login_redirect_url
 # LOGOUT_REDIRECT_URL = dynamic_login_redirect_url
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
 
 
 
@@ -247,8 +249,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv('GMAIL_ACCOUNT', '')
 EMAIL_HOST_PASSWORD = os.getenv('GMAIL_PASSWORD','')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', '')
 
-ADMINS = [('Paulo','pauloakello56@gmail.com')]
+ADMINS = [('Paulo',os.getenv('ADMIN_EMAIL', ''))]
 MANAGERS = ADMINS
  
 

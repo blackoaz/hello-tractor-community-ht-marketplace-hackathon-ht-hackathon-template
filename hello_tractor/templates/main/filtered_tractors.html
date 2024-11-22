@@ -7,11 +7,8 @@
 {% block content%}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <section class="hero-sec">
-  {% include 'main/search.html' %}
+  {% include 'main/filtered_search.html' %}
   <div class="hero-content">
-    <h1>Top Features</h1>
-    <p>Best featured deals, with best offers</p>
-
     <div class="featured-deals">
       {% for tractor in tractors %}
       <a href="{% url 'vehicle_details' uid=tractor.uid %}" class="deal-link">
@@ -109,100 +106,5 @@
     </div>
   </div>
 </section>
-
-<!-- Why Choose Us Section -->
-<section class="why-choose-us">
-  <h2>Why <span>Choose Us?</span></h2>
-  <p>We have over 7 years of experience and knowledge on selling cars.</p>
-  <div class="choose-cards">
-    <div class="choose-card">
-      <div class="icon">🖥️</div>
-      <h3>Go Digital</h3>
-      <p>Mymoti is a 100% digital marketplace. Our platform offers unparalleled access to a huge selection of new and
-        used car listings.</p>
-    </div>
-    <div class="choose-card">
-      <div class="icon">💰</div>
-      <h3>Save on Costs</h3>
-      <p>Buying and owning a car should not cost an arm and a leg. We provide great prices and quality cars, auto parts,
-        and more.</p>
-    </div>
-    <div class="choose-card">
-      <div class="icon">👍</div>
-      <h3>Customer Experience</h3>
-      <p>We have built a customer-centric, trust-based, and data-driven digital culture to provide superior service and
-        security.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Popular Categories Section -->
-<section class="categories-section">
-  <div class="categories-header">
-    <h1>Popular <span>Categories</span></h1>
-    <p>Popular categories of listings</p>
-  </div>
-
-  <div class="categories-grid">
-    <!-- New Tractors Card -->
-    <div class="category-card">
-      <img src="{% static 'images/tractor1.jpeg' %}" alt="New Cars">
-      <div class="overlay"></div>
-      <div class="listing-count">100 LISTINGS</div>
-      <div class="card-content">
-        <h3>New Cars</h3>
-        <p>From Ksh 600,000</p>
-      </div>
-    </div>
-
-    <!-- SUVs Card -->
-    <div class="category-card">
-      <img src="{% static 'images/tractor1.jpeg' %}" alt="SUVs">
-      <div class="overlay"></div>
-      <div class="listing-count">56 LISTINGS</div>
-      <div class="card-content">
-        <h3>SUVs</h3>
-        <p>From Ksh 1200000</p>
-      </div>
-    </div>
-
-    <!-- Used Tractors Card -->
-    <div class="category-card">
-      <img src="{% static 'images/tractor1.jpeg' %}" alt="Used Cars">
-      <div class="overlay"></div>
-      <div class="listing-count">180 LISTINGS</div>
-      <div class="card-content">
-        <h3>Used Cars</h3>
-        <p>From Ksh 450,000</p>
-      </div>
-    </div>
-
-    <!-- Vans Card -->
-    <div class="category-card">
-      <img src="{% static 'images/tractor1.jpeg' %}" alt="Vans">
-      <div class="overlay"></div>
-      <div class="listing-count">25 LISTINGS</div>
-      <div class="card-content">
-        <h3>Vans</h3>
-        <p>From Ksh 800,000</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact Section -->
-<section class="contact-section">
-  <div class="contact-header">
-    <h1>Latest <span>Posts</span></h1>
-    <p>Catch the latest motoring information and more.</p>
-  </div>
-
-  <!-- Popular Brands Section -->
-  <div class="popular-brands">
-    {% for image in images %}
-    <div>
-        <img src="{% url 'serve_brand_image' image %}" alt="Brand {{ forloop.counter }}">
-    </div>
-    {% endfor %}
 </div>
 {% endblock %}

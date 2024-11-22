@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/vehicle_details.css' %}">
     <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <link rel="stylesheet" href="{% static 'css/filtered_search.css' %}">
     <title>{% block title %}Hello Tractor{% endblock %}</title>
 </head>
 
@@ -33,7 +34,16 @@
                         <ul class="nav-links">
 
                             <li><a href="{% host_url 'homepage' host 'root' %}">Home</a></li>
-                            <li><a href="#">Tractors</a></li>
+                            <li class="tractor-options">
+                                <a href="#">Tractors</a> <i class="fa fa-caret-down"></i>
+                                <div class="dropdown-content">
+                                    <ul>
+                                        <li><a href="{% host_url 'filtered_tractors' host 'root' %}">New Tractors</a></li>
+                                        <li><a href="#">Old Tractors</a></li>
+                                        <li><a href="#">Spare Parts</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li><a href="#">Dealers</a></li>
                             {% if user.is_authenticated %}
                             <li><a href="{% url 'account_logout' %}">Logout</a></li>
@@ -58,7 +68,7 @@
         {% endblock %}
     
     
-    
+    {% include 'main/footer.html' %}
     <script>
         console.log('Hello from main.js');
         document.addEventListener('DOMContentLoaded', () => {
@@ -72,11 +82,7 @@
 
     </script>
     <script src="https://kit.fontawesome.com/11055935d8.js" crossorigin="anonymous"></script>
-    <!-- <script src="{% static 'js/main.js' %}"></script> -->
-    <script src="{% static 'js/main.js' %}?v=1"></script>
-
-    {% include 'main/footer.html' %}
-
+    <script src="{% static 'js/main.js' %}"></script> 
 </body>
 
 </html>

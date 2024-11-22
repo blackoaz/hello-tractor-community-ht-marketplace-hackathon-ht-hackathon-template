@@ -21,7 +21,15 @@ class Seller(Common):
     last_name = models.CharField(max_length=50)
     contact_number = PhoneNumberField(blank=True)
     contact_email = models.EmailField()
+    seller_description = models.TextField(blank=True)
     is_verified = models.BooleanField(default=False)
+
+
+    def get_logo_url(self):
+        logo = self.logoImages.first()
+        if logo:
+            return f"{logo.mongo_filename}"
+        return None
 
     def save(self, *args, **kwargs):
         if not self.user.is_seller:
@@ -31,6 +39,26 @@ class Seller(Common):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.user.username})"
+
+class LogoImage(models.Model):
+    logo = models.ForeignKey('Seller', on_delete=models.CASCADE, related_name='logoImages',null=False,blank=False)
+    mongo_filename = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"MongoDB Image for {self.logo}: {self.mongo_filename}"
+    
+
+@receiver(post_delete, sender=Seller)
+def delete_images_for_sellers_logos(sender, instance, **kwargs):
+    try:
+        files = fs.find({'metadata.seller_logo_uid': str(instance.uid)})
+        for file in files:
+            fs.delete(file._id)
+    except Exception as e:
+        print(f"Error deleting logos for seller {instance.id}: {e}")
+
+
+    
 
 class Tractor(Common):
     BRANDS = (
@@ -60,13 +88,13 @@ class Tractor(Common):
     condition = models.CharField(max_length=30, blank=False, null=False, choices=CONDITION, default='Old')
     fuel_type = models.CharField(max_length=30, blank=False, null=False, choices=FUEL_TYPE, default='Petrol')
     transmission = models.CharField(max_length=10, blank=False, null=False, choices=TRANSMISSION, default='Manual')
-    Tractor_description = models.TextField()
-    Wheel_Drive = models.CharField(max_length=30, blank=False, null=False)
-    horse_power = models.PositiveIntegerField()
-    Number_of_cylinders = models.PositiveIntegerField()
-    mileage = models.PositiveIntegerField()
-    forward_speed = models.PositiveIntegerField()
-    lifting_capacity = models.PositiveIntegerField()
+    # Tractor_description = models.TextField()
+    # Wheel_Drive = models.CharField(max_length=30, blank=False, null=False)
+    # horse_power = models.PositiveIntegerField()
+    # Number_of_cylinders = models.PositiveIntegerField()
+    # mileage = models.PositiveIntegerField()
+    # forward_speed = models.PositiveIntegerField()
+    # lifting_capacity = models.PositiveIntegerField()
     
     is_featured = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)

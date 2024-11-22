@@ -1,11 +1,10 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from pathlib import Path
-
-from django.urls import reverse
-from .mongo_db import fs, save_images_from_directory
+from .mongo_db import fs
 from sellers.models import Tractor
 from django.db.models import F 
+from admin_panel.models import TractorBrand
 
 def homepage(request):
     # Fetch all tractors available for sale
@@ -53,6 +52,41 @@ def homepage(request):
     return render(request, 'main/homepage.html', context)
 
 
+
+# view function for filtered tractors
+def filtered_tractors(request):
+    brands = TractorBrand.objects.all()
+    tractors = Tractor.objects.all()
+
+    brand = request.GET.get('brand')
+    if brand:
+        tractors = tractors.filter(brand__icontains=brand)
+
+    condition = request.GET.get('condition')
+    if condition:
+        tractors = tractors.filter(condition__iexact=condition)
+
+    transmission = request.GET.get('transmission')
+    if transmission:
+        tractors = tractors.filter(transmission__iexact=transmission)
+
+    body_type = request.GET.get('body_type')
+    if body_type:
+        tractors = tractors.filter(body_type__icontains=body_type)
+
+    fuel = request.GET.get('fuel')
+    if fuel:
+        tractors = tractors.filter(fuel_type__iexact=fuel)
+
+    year = request.GET.get('year')
+    if year:
+        tractors = tractors.filter(year=year)
+
+    price = request.GET.get('price')
+    if price:
+        tractors = tractors.filter(price__lte=price)
+    context={'tractors': tractors, 'brands':brands}
+    return render(request, 'main/filtered_tractors.html',context=context)
 
 # view function for serving tractor brand images
 def serve_image(request, filename):

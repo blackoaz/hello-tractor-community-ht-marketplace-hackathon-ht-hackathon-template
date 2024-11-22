@@ -1,0 +1,120 @@
+.filtered-search {
+    background-color: #1a1e23;
+    padding: 20px;
+    width: 100%;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+select {
+    padding: 8px 15px;
+    border-radius: 4px;
+    border: none;
+    background-color: white;
+    color: #333;
+    width: 200px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+}
+
+select:focus {
+    outline: none;
+}
+
+.filters select:focus,
+.filters input[type="range"]:focus {
+  outline: none;
+  border-color: #4caf50; /* Green border on focus */
+}
+
+.filters .price-range {
+  flex-basis: 100%; /* Price range takes up full width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.price-range label {
+  font-size: 14px;
+  color: var(--accent);
+  margin-right: 10px;
+}
+
+#price-value {
+  font-size: 14px;
+  color: #4caf50;
+}
+
+/* .price-range {
+    flex-grow: 0.5;
+    color: white;
+    min-width: 300px;
+}
+
+input[type="range"] {
+    width: 50%;
+    height: 4px;
+    background: var(--background);
+    border-radius: 5px;
+    outline: none;
+    /* -webkit-appearance: none; 
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+} */
+
+.search-btn {
+    background-color: var(--primary);
+    color: white;
+    padding: 8px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.search-btn:hover {
+    background-color: var(--background);
+    color: var(--primary);
+}
+
+.price-label {
+    margin-bottom: 8px;
+    display: block;
+}
+
+.search-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}

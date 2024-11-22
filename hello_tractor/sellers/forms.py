@@ -1,6 +1,17 @@
 from django import forms
-from .models import Tractor, TractorImage
+from .models import Tractor, TractorImage, Seller
 from main.mongo_db import fs
+
+
+# sellers registration form
+
+class SellerRegistrationForm(forms.ModelForm):
+    logo = forms.ImageField(required=False)
+
+    class Meta:
+        model = Seller
+        fields = ['first_name', 'last_name', 'contact_number', 'contact_email', 'seller_description', 'logo']
+
 
 class TractorForm(forms.ModelForm):
     class Meta:

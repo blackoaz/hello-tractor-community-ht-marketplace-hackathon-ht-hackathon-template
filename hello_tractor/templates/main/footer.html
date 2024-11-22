@@ -1,3 +1,5 @@
+{% load static %}
+{% load hosts %} 
  <!-- Footer -->
  <footer>
     <div class="footer-container">
@@ -11,19 +13,19 @@
                 <a href="#"><i class="fa fa-linkedin"></i></a>
               </div>
         </div>
-        <div class="footer-section">
+        <div class="footer-section" id="footer-sec">
             <h3>Quick Links</h3>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="{% host_url 'homepage' host 'root' %}">Home</a></li>
                 <li><a href="#">Tractors</a></li>
                 <li><a href="#">Dealers</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="#footer-sec">Contact Us</a></li>
             </ul>
         </div>
         <div class="footer-section">
             <h3>Contact</h3>
             <ul>
-                <li>Email: info@mymoti.com</li>
+                <li>Email: info@hellotractor.com</li>
                 <li>Phone: +254 700 000 000</li>
                 <li>Nairobi, Kenya</li>
             </ul>
@@ -42,46 +44,3 @@
         </div>
     </div>
 </footer>
-
-<!-- <div class="contact-sec-div">
-    <div class="contact-info">
-      <div class="company-info">
-        <div class="logo">
-          <span>My Logo</span>
-        </div>
-        <p>
-          Hello Tractor is a leading digital automotive marketplace for buying
-          and selling cars, car financing, car insurance, car parts, and garage services.
-        </p>
-        <div class="social-icons">
-          <a href="#"><i class="fa fa-facebook"></i></a>
-          <a href="#"><i class="fa fa-twitter"></i></a>
-          <a href="#"><i class="fa fa-instagram"></i></a>
-          <a href="#"><i class="fa fa-linkedin"></i></a>
-        </div>
-      </div>
-    </div>
-
-    <div class="company-info">
-      <h1>Info</h1>
-      <p><strong>Phone:</strong> (254) 720 304 479</p>
-      <p><strong>Email:</strong> info@mymoti.co.ke</p>
-      <p><strong>Address:</strong> P.O.Box 00100, Nairobi</p>
-      <p><strong>Location:</strong> Ngong Road, Nairobi</p>
-    </div>
-
-    <div class="company-info">
-      <h1>Where we are</h1>
-      <p>Ngong RD</p>
-      <p>Nairobi</p>
-    </div>
-    <div class="company-info">
-      <h1>Subscribe to our Newsletter</h1>
-      <form action="" method="post">
-        <input type="email" name="email" id="email" placeholder="Enter your email">
-        <button title="subscribe" type="submit">
-          <i class="fa fa-paper-plane"></i>
-        </button>
-      </form>
-    </div>
-  </div> -->

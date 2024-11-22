@@ -1,11 +1,13 @@
+from django.contrib import messages
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.views import View
 
 from main.utils.utils import get_image_from_mongo
-from .models import Tractor, TractorImage
-from .forms import TractorForm, ImageUploadForm
+from .models import LogoImage, Tractor, TractorImage
+from .forms import SellerRegistrationForm, TractorForm, ImageUploadForm
 from main.mongo_db import fs
 
 def seller_login(request):
@@ -26,9 +28,46 @@ def dashboard(request):
         return redirect('sellers_homepage')
     return render(request, 'sellers/dashboard.html')
 
+@login_required
+class SellerRegistrationView(View):
+    def get(self, request):
+        form = SellerRegistrationForm()
+        return render(request, 'seller_registration.html', {'form': form})
+
+    def post(self, request):
+        form = SellerRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the seller data
+            seller = form.save(commit=False)
+            seller.user = request.user 
+            seller.save()
+
+            # Save the logo to GridFS
+            logo_file = request.FILES['logo']
+            metadata = {'seller_logo_uid': str(seller.id),'category': 'seller_logo'}
+            file_id = fs.put(logo_file, filename=logo_file.name, content_type=logo_file.content_type, metadata=metadata)
+
+            # Save the LogoImage reference
+            LogoImage.objects.create(logo=seller, mongo_filename=str(file_id))
+
+            messages.success(request, "Seller registered successfully!")
+            return redirect('dashboard')  # Redirect to the seller's dashboard
+        else:
+            return render(request, 'seller_registration.html', {'form': form})
+        
+
+def serve_logo(request, file_id):
+    try:
+        file = fs.get(file_id)
+        response = HttpResponse(file.read(), content_type=file.content_type)
+        response['Content-Disposition'] = f'inline; filename="{file.filename}"'
+        return response
+    except Exception as e:
+        return HttpResponse(status=404)
 
 
 
+@login_required
 def add_tractor(request):
     if request.method == 'POST':
         tractor_form = TractorForm(request.POST)

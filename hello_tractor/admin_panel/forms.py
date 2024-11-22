@@ -7,7 +7,7 @@ class TractorBrandForm(forms.ModelForm):
 
     class Meta:
         model = TractorBrand
-        fields = ['name', 'description']
+        fields = ['brand_name', 'description']
 
     def save(self, commit=True):
         # Handle the MongoDB image storage and save metadata in the model
@@ -16,7 +16,7 @@ class TractorBrandForm(forms.ModelForm):
 
         if image_file:
             with image_file.open('rb') as f:
-                metadata = {"brand_name": brand.name, "category": "tractor_brand"}
+                metadata = {"brand_name": brand.brand_name, "category": "tractor_brand"}
                 mongo_filename = fs.put(f, filename=image_file.name, metadata=metadata)
                 brand.mongo_image_filename = mongo_filename  
 
