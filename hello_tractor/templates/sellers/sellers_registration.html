@@ -5,6 +5,7 @@
 {% block title %}Hello Tractor - Become a Seller{% endblock title %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/seller_registration.css' %}">
 <form method="post" enctype="multipart/form-data" action="{% url 'seller_registration' %}">
     {% csrf_token %}
     <div class="form-group first_name">

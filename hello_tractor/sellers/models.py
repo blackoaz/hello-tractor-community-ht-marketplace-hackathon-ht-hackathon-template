@@ -5,6 +5,7 @@ import uuid
 from django.db.models.signals import post_delete
 from main.models import CustomUser
 from main.mongo_db import fs
+from admin_panel.models import TractorBrand
 
 # Create your models here.
 class Common(models.Model):
@@ -58,19 +59,27 @@ def delete_images_for_sellers_logos(sender, instance, **kwargs):
         print(f"Error deleting logos for seller {instance.id}: {e}")
 
 
-    
+class Locations(Common):
+    town = models.CharField(max_length=200,blank=False,null=False)
+    county = models.CharField(max_length=50, blank=False, null=False)
+
+    def __str__(self) -> str:
+        return f"{self.county}"
 
 class Tractor(Common):
     BRANDS = (
-        ('John Deere','Deere'),
-        ('Mercy Ferguson','Ferguson')
+        ('John Deere','John Deere'),
+        ('Mercy Ferguson','John Deere')
     )
     CONDITION = (
-        ('New','New'),
-        ('Second Hand','Old'),
+        ('New Tractors','New Tractors'),
+        ('Used Tractors','Used Tractors'),
     )
 
-    TRANSMISSION = (('Automatic','Automatic'),('Manual','Manual'))
+    TRANSMISSION = (('Automatic','Automatic'),
+                    ('Manual','Manual'),
+                    ('Electric','Electric'),
+                    )
 
     FUEL_TYPE = (('Diesel','Diesel'),
                  ('Petrol','Petrol'))
@@ -81,23 +90,24 @@ class Tractor(Common):
     engine_capacity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=12, decimal_places=2)
     location = models.CharField(max_length=20, blank=False, null=False, choices=(
-        ('Nairobi', 'Nairobi'),
-        ('Mombasa', 'Mombasa'),
-        ('Kisumu', 'Kisumu'),
+        ('Nairobi','Nairobi'),
+        ('Kisumu','Kisumu'),
+        ('Mombasa','Mombasa')
     ), default='Nairobi')
     condition = models.CharField(max_length=30, blank=False, null=False, choices=CONDITION, default='Old')
     fuel_type = models.CharField(max_length=30, blank=False, null=False, choices=FUEL_TYPE, default='Petrol')
     transmission = models.CharField(max_length=10, blank=False, null=False, choices=TRANSMISSION, default='Manual')
-    # Tractor_description = models.TextField()
-    # Wheel_Drive = models.CharField(max_length=30, blank=False, null=False)
-    # horse_power = models.PositiveIntegerField()
-    # Number_of_cylinders = models.PositiveIntegerField()
-    # mileage = models.PositiveIntegerField()
-    # forward_speed = models.PositiveIntegerField()
-    # lifting_capacity = models.PositiveIntegerField()
-    
+    Tractor_description = models.TextField()
+    Wheel_Drive = models.CharField(max_length=30, blank=False, null=False)
+    horse_power = models.DecimalField(max_digits=12,decimal_places=2,default=0)
+    Number_of_cylinders = models.PositiveIntegerField(default=0)
+    mileage = models.DecimalField(max_digits=20,decimal_places=2,default=0)
+    forward_speed = models.DecimalField(max_digits=12,decimal_places=2,default=0)
+    reverse_speed = models.DecimalField(max_digits=12,decimal_places=2,default=0)
+    lifting_capacity = models.DecimalField(max_digits=12,decimal_places=2,default=0)
     is_featured = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
 
 
     def __str__(self):
@@ -127,3 +137,7 @@ def delete_images_for_tractor(sender, instance, **kwargs):
     files = fs.find({'metadata.tractor_uid': str(instance.uid)})
     for file in files:
         fs.delete(file._id)
+
+
+class Dealers(Common):
+    pass

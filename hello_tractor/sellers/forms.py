@@ -17,7 +17,9 @@ class TractorForm(forms.ModelForm):
     class Meta:
         model = Tractor
         fields = ['tractor_name', 'model', 'year_of_manufucture', 'engine_capacity',
-                  'price', 'location', 'condition', 'fuel_type', 'transmission']
+                  'price', 'location', 'condition', 'fuel_type', 'transmission','Tractor_description',
+                  'Wheel_Drive','horse_power','Number_of_cylinders','mileage','forward_speed',
+                  'reverse_speed','lifting_capacity','is_featured','is_available']
 
 class ImageUploadForm(forms.Form):
     image = forms.ImageField()

@@ -55,28 +55,24 @@ def homepage(request):
 
 # view function for filtered tractors
 def filtered_tractors(request):
-    brands = TractorBrand.objects.all()
+    brands = TractorBrand.objects.filter(model)
     tractors = Tractor.objects.all()
 
     brand = request.GET.get('brand')
     if brand:
-        tractors = tractors.filter(brand__icontains=brand)
+        tractors = tractors.filter(model__icontains=brand)
 
     condition = request.GET.get('condition')
     if condition:
-        tractors = tractors.filter(condition__iexact=condition)
+        tractors = tractors.filter(condition__icontains=condition)
 
     transmission = request.GET.get('transmission')
     if transmission:
-        tractors = tractors.filter(transmission__iexact=transmission)
-
-    body_type = request.GET.get('body_type')
-    if body_type:
-        tractors = tractors.filter(body_type__icontains=body_type)
+        tractors = tractors.filter(transmission__icontains=transmission)
 
     fuel = request.GET.get('fuel')
     if fuel:
-        tractors = tractors.filter(fuel_type__iexact=fuel)
+        tractors = tractors.filter(fuel_type__icontains=fuel)
 
     year = request.GET.get('year')
     if year:
@@ -86,6 +82,7 @@ def filtered_tractors(request):
     if price:
         tractors = tractors.filter(price__lte=price)
     context={'tractors': tractors, 'brands':brands}
+    print(tractors)
     return render(request, 'main/filtered_tractors.html',context=context)
 
 # view function for serving tractor brand images

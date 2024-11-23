@@ -12,98 +12,104 @@
     <div class="featured-deals">
       {% for tractor in tractors %}
       <a href="{% url 'vehicle_details' uid=tractor.uid %}" class="deal-link">
-          <div class="deal">
-              <img src="{{ tractor.image_url }}" alt="{{ tractor.name }}">
-              <h3>{{ tractor.name }}</h3>
-              <p class="meta">
-                  <span>{{ tractor.created|timesince }} ago</span> | <span>{{ tractor.location }}</span>
-              </p>
-              <div class="spec">
-                  <p><strong>Seller:</strong> {{ tractor.seller_name }}</p>
-                  <p><strong>Transmission:</strong> {{ tractor.transmission }}</p>
-                  <p><strong>Fuel:</strong> {{ tractor.fuel_type }}</p>
-                  <p><strong>Condition:</strong> {{ tractor.condition }}</p>
-              </div>
-              <hr>
-              <div class="pricing">
-                  {% if tractor.is_featured %}
-                  <div class="featured">Featured</div>
-                  {% endif %}
-                  <div class="price">KSH {{ tractor.price|floatformat:2 }}</div>
-              </div>
+        <div class="deal">
+          <img src="{{ tractor.image_url }}" alt="{{ tractor.name }}">
+          <h3>{{ tractor.name }}</h3>
+          <p class="meta">
+            <span>{{ tractor.created|timesince }} ago</span> | <span>{{ tractor.location }}</span>
+          </p>
+          <div class="spec">
+            <p><strong>Seller:</strong> {{ tractor.seller_name }}</p>
+            <p><strong>Transmission:</strong> {{ tractor.transmission }}</p>
+            <p><strong>Fuel:</strong> {{ tractor.fuel_type }}</p>
+            <p><strong>Condition:</strong> {{ tractor.condition }}</p>
           </div>
+          <hr>
+          <div class="pricing">
+            {% if tractor.is_featured %}
+            <div class="featured">Featured</div>
+            {% endif %}
+            <div class="price">KSH {{ tractor.price|floatformat:2 }}</div>
+          </div>
+        </div>
       </a>
       {% endfor %}
-  </div>
-</div>  
-
-    <div class="featured-deals">
-      <a href="{% url 'vehicle_details' uid=1 %}" class="deal-link">
-        <div class="deal">
-          <img src="https://images.unsplash.com/photo-1526664781949-af414dc24053?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="tractor2">
-          <h3>Mazda Atenza</h3>
-          <p class="meta">
-            <span>10 months ago</span> | <span>Nairobi</span>
-          </p>
-          <div class="spec">
-            <p><strong>Seller:</strong> Hello Tractor</p>
-            <p><strong>Transmission:</strong> Automatic</p>
-            <p><strong>Engine Capacity:</strong> 2000cc</p>
-            <p><strong>Fuel:</strong> Petrol</p>
-            <p><strong>Drive:</strong> Front Wheel</p>
-          </div>
-          <hr>
-          <div class="pricing">
-            <div class="featured">Featured</div>
-            <div class="price">KSH 2,350,000</div>
-          </div>
-        </div>
-      </a>
-      
-      <a href="{% url 'vehicle_details' uid=2 %}" class="deal-link">
-        <div class="deal">
-          <img src="https://images.unsplash.com/photo-1531798123643-26d5ab4c264d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="tractor2">
-          <h3>Mazda Atenza</h3>
-          <p class="meta">
-            <span>10 months ago</span> | <span>Nairobi</span>
-          </p>
-          <div class="spec">
-            <p><strong>Seller:</strong> Hello Tractor</p>
-            <p><strong>Transmission:</strong> Automatic</p>
-            <p><strong>Engine Capacity:</strong> 2000cc</p>
-            <p><strong>Fuel:</strong> Petrol</p>
-            <p><strong>Drive:</strong> Front Wheel</p>
-          </div>
-          <hr>
-          <div class="pricing">
-            <div class="featured">Featured</div>
-            <div class="price">KSH 2,350,000</div>
-          </div>
-        </div>
-      </a>
-
-      <a href="{% url 'vehicle_details' uid=3 %}" class="deal-link">
-        <div class="deal">
-          <img src="https://images.unsplash.com/photo-1527847263472-aa5338d178b8?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="tractor2">
-          <h3>Mazda Atenza</h3>
-          <p class="meta">
-            <span>10 months ago</span> | <span>Nairobi</span>
-          </p>
-          <div class="spec">
-            <p><strong>Seller:</strong> Hello Tractor</p>
-            <p><strong>Transmission:</strong> Automatic</p>
-            <p><strong>Engine Capacity:</strong> 2000cc</p>
-            <p><strong>Fuel:</strong> Petrol</p>
-            <p><strong>Drive:</strong> Front Wheel</p>
-          </div>
-          <hr>
-          <div class="pricing">
-            <div class="featured">Featured</div>
-            <div class="price">KSH 2,350,000</div>
-          </div>
-        </div>
-      </a>
     </div>
+  </div>
+
+  <!-- <div class="featured-deals">
+    <a href="{% url 'vehicle_details' uid=1 %}" class="deal-link">
+      <div class="deal">
+        <img
+          src="https://images.unsplash.com/photo-1526664781949-af414dc24053?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="tractor2">
+        <h3>Mazda Atenza</h3>
+        <p class="meta">
+          <span>10 months ago</span> | <span>Nairobi</span>
+        </p>
+        <div class="spec">
+          <p><strong>Seller:</strong> Hello Tractor</p>
+          <p><strong>Transmission:</strong> Automatic</p>
+          <p><strong>Engine Capacity:</strong> 2000cc</p>
+          <p><strong>Fuel:</strong> Petrol</p>
+          <p><strong>Drive:</strong> Front Wheel</p>
+        </div>
+        <hr>
+        <div class="pricing">
+          <div class="featured">Featured</div>
+          <div class="price">KSH 2,350,000</div>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'vehicle_details' uid=2 %}" class="deal-link">
+      <div class="deal">
+        <img
+          src="https://images.unsplash.com/photo-1531798123643-26d5ab4c264d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="tractor2">
+        <h3>Mazda Atenza</h3>
+        <p class="meta">
+          <span>10 months ago</span> | <span>Nairobi</span>
+        </p>
+        <div class="spec">
+          <p><strong>Seller:</strong> Hello Tractor</p>
+          <p><strong>Transmission:</strong> Automatic</p>
+          <p><strong>Engine Capacity:</strong> 2000cc</p>
+          <p><strong>Fuel:</strong> Petrol</p>
+          <p><strong>Drive:</strong> Front Wheel</p>
+        </div>
+        <hr>
+        <div class="pricing">
+          <div class="featured">Featured</div>
+          <div class="price">KSH 2,350,000</div>
+        </div>
+      </div>
+    </a>
+
+    <a href="{% url 'vehicle_details' uid=3 %}" class="deal-link">
+      <div class="deal">
+        <img
+          src="https://images.unsplash.com/photo-1527847263472-aa5338d178b8?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="tractor2">
+        <h3>Mazda Atenza</h3>
+        <p class="meta">
+          <span>10 months ago</span> | <span>Nairobi</span>
+        </p>
+        <div class="spec">
+          <p><strong>Seller:</strong> Hello Tractor</p>
+          <p><strong>Transmission:</strong> Automatic</p>
+          <p><strong>Engine Capacity:</strong> 2000cc</p>
+          <p><strong>Fuel:</strong> Petrol</p>
+          <p><strong>Drive:</strong> Front Wheel</p>
+        </div>
+        <hr>
+        <div class="pricing">
+          <div class="featured">Featured</div>
+          <div class="price">KSH 2,350,000</div>
+        </div>
+      </div>
+    </a>
+  </div> -->
   </div>
 </section>
 </div>

@@ -125,8 +125,19 @@ def serve_tractor_image(request, tractor_id, image_id):
        
         if image_data:
             content_type = image_data.content_type
-            return HttpResponse(image_data, content_type=content_type)  # Adjust the content_type based on the actual image type
+            return HttpResponse(image_data, content_type=content_type)
     except TractorImage.DoesNotExist:
         return HttpResponse("Image not found", status=404)
+    
+
+# view function for adding a new tractor
+@login_required
+def register_new_tractor_for_sale(request):
+    form = TractorForm()
+
+    context = {
+        'form': form
+    }
+    return render(request,'sellers/register_tractor_sale.html',context)
 
 
