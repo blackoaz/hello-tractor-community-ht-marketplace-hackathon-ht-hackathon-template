@@ -124,11 +124,12 @@ class Tractor(Common):
 
 
 class TractorImage(models.Model):
-    tractor = models.ForeignKey('Tractor', on_delete=models.CASCADE, related_name='images',null=False,blank=False)
-    mongo_filename = models.CharField(max_length=255)
+    tractor = models.ForeignKey('Tractor', on_delete=models.CASCADE, related_name='images')
+    mongo_filename = models.CharField(max_length=255) 
 
     def __str__(self):
-        return f"MongoDB Image for {self.tractor.tractor_name}: {self.mongo_filename}"
+        return f"Image for {self.tractor.tractor_name}: {self.mongo_filename}"
+
     
 
 @receiver(post_delete, sender=Tractor)

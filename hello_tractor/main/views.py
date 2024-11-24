@@ -7,21 +7,16 @@ from django.db.models import F
 from admin_panel.models import TractorBrand
 
 def homepage(request):
+    """
+    This is the main view function for the homepage,
+    takes in all the featured sales and logos for display
+    """
     # Fetch all tractors available for sale
     featured_tractors = Tractor.objects.filter(
         is_available=True, is_featured=True
     ).order_by('-is_featured', '-created').annotate(
         seller_name=F('tractor_seller__user__username')
     )
-
-    #Retrieving_brands images
-        # Save images from directory to MongoDB (optional)
-    # image_path = Path(__file__).resolve().parent.parent / "static/images/brands"
-    # for file in fs.find({"metadata.category": "tractor_brand"}):
-    #     print(f"Deleting brand image: {file.filename}")
-    #     fs.delete(file._id)
-    
-    # save_images_from_directory(image_path)
 
     # Fetching tractor brand images
     image_files = fs.find({"metadata.category": "tractor_brand"})
@@ -55,7 +50,11 @@ def homepage(request):
 
 # view function for filtered tractors
 def filtered_tractors(request):
-    brands = TractorBrand.objects.filter(model)
+    """
+    View function for enabling users to filter tractors based on differnt
+    categoroies and preferences.
+    """
+    brands = TractorBrand.objects.all()
     tractors = Tractor.objects.all()
 
     brand = request.GET.get('brand')
@@ -87,6 +86,10 @@ def filtered_tractors(request):
 
 # view function for serving tractor brand images
 def serve_image(request, filename):
+    """
+    Function for retrieving image from MongoDb,
+    parameter(filename)
+    """
     print(f"Serving image: {filename}")
     file = fs.find_one({"filename": filename})
     if file:
@@ -129,12 +132,4 @@ def upload_image(request):
 # view function for vehicle_details
 def vehicle_details(request, uid):
     return render(request, 'main/vehicle_details.html', {'uid': uid})
-
-# # view function for serving tractor brand images
-# def serve_image(request, filename):
-#     image_data = get_image(filename)
-#     if image_data:
-#         return HttpResponse(image_data, content_type=("image/jpeg",'image/png','image/webp','image/jpg')) 
-#     return HttpResponse("Image not found", status=404)
-
 

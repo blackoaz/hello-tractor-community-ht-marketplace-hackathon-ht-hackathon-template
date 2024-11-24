@@ -1,0 +1,11 @@
+<h1>{{ tractor.tractor_name }}</h1>
+<p>Model: {{ tractor.model }}</p>
+<p>Price: ${{ tractor.price }}</p>
+<p>Location: {{ tractor.location }}</p>
+
+<h3>Images</h3>
+<div class="image-gallery">
+    {% for image in images %}
+        <img src="data:image/jpeg;base64,{{ image.data|b64encode }}" alt="Image for {{ tractor.tractor_name }}" style="width:200px;" />
+    {% endfor %}
+</div>

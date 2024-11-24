@@ -14,19 +14,44 @@
         {% include 'main/sidebar.html' %}
         <main>
             <h2 class="main-header">Register Tractor for Sale</h2>
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form action="#" method="post" enctype="multipart/form-data" class="tractor-sale">
                 {% csrf_token %}
+                <h3>Tractor Details</h3>
+                {{ tractor_form.as_p }}
+
+                <h3>Upload Images</h3>
+                {{ image_form.as_p }}
                 
-                <!-- Brand Name -->
-                <div class="brand-name">
-                    <label for="brand_name">Brand Name</label>
-                    <input type="text" name="brand_name" id="brand_name" placeholder="Enter the Brand name" value="{{ form.brand_name.value|default:'' }}">
+                <!-- Tractor Name -->
+                <!-- <div class="tractor-name">
+                    <label for="tractor_name">Tractor Name: </label>
+                    <input type="text" name="tractor_name" id="tractor_name" placeholder="Enter Tractor name" value="{{ form.tractor_name.value|default:'' }}">
                     {% if form.brand_name.errors %}
-                        <p class="error">{{ form.brand_name.errors.0 }}</p>
+                        <p class="error">{{ form.tractor_name.errors.0 }}</p>
                     {% endif %}
                 </div>
-            
-                <!-- Description -->
+                <div class="model">
+                    <label for="model">Model: </label>
+                    <input type="text" name="model" id="model" placeholder="Selector Tractor Model" value="{{ form.model.value|default:'' }}">
+                    {% if form.model.errors %}
+                        <p class="error">{{ form.model.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="year">
+                    <label for="year_of_manufucture">Year of Manufacturer: </label>
+                    <input type="text" name="year_of_manufucture" id="year_of_manufucture" placeholder="Enter Year of Manufacturer" value="{{ form.year_of_manufucture.value|default:'' }}">
+                    {% if form.year_of_manufucture.errors %}
+                        <p class="error">{{ form.year_of_manufucture.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="year">
+                    <label for="year_of_manufucture">Year of Manufacturer: </label>
+                    <input type="text" name="year_of_manufucture" id="year_of_manufucture" placeholder="Enter Year of Manufacturer" value="{{ form.year_of_manufucture.value|default:'' }}">
+                    {% if form.year_of_manufucture.errors %}
+                        <p class="error">{{ form.year_of_manufucture.errors.0 }}</p>
+                    {% endif %}
+                </div>
                 <div>
                     <label for="description">Description</label>
                     <textarea name="description" id="brand-desc" placeholder="Enter Information about Brand">{{ form.description.value|default:'' }}</textarea>
@@ -34,8 +59,7 @@
                         <p class="error">{{ form.description.errors.0 }}</p>
                     {% endif %}
                 </div>
-            
-                <!-- Image Upload -->
+                
                 <div class="brand-image">
                     <label for="image_file">Select Brand Image</label>
                     <input type="file" name="image_file" id="image_file">
@@ -44,9 +68,9 @@
                     {% endif %}
                 </div>
             
-                <!-- Submit Button -->
-                <button type="submit">Add Brand</button>
-                {{form.as_p}}
+                <button type="submit">Add Brand</button> -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+                
             </form>
 
             
