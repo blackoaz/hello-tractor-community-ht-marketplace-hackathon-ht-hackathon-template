@@ -11,7 +11,7 @@
 <section class="dashboard-container">
 
     <div class="dashboard-body">
-        {% include 'main/sidebar.html' %}
+        {% include 'sellers/sellers_sidebar.html' %}
         <main>
             <h2 class="main-header">Register Tractor for Sale</h2>
             <form action="#" method="post" enctype="multipart/form-data" class="tractor-sale">
@@ -21,54 +21,6 @@
 
                 <h3>Upload Images</h3>
                 {{ image_form.as_p }}
-                
-                <!-- Tractor Name -->
-                <!-- <div class="tractor-name">
-                    <label for="tractor_name">Tractor Name: </label>
-                    <input type="text" name="tractor_name" id="tractor_name" placeholder="Enter Tractor name" value="{{ form.tractor_name.value|default:'' }}">
-                    {% if form.brand_name.errors %}
-                        <p class="error">{{ form.tractor_name.errors.0 }}</p>
-                    {% endif %}
-                </div>
-                <div class="model">
-                    <label for="model">Model: </label>
-                    <input type="text" name="model" id="model" placeholder="Selector Tractor Model" value="{{ form.model.value|default:'' }}">
-                    {% if form.model.errors %}
-                        <p class="error">{{ form.model.errors.0 }}</p>
-                    {% endif %}
-                </div>
-
-                <div class="year">
-                    <label for="year_of_manufucture">Year of Manufacturer: </label>
-                    <input type="text" name="year_of_manufucture" id="year_of_manufucture" placeholder="Enter Year of Manufacturer" value="{{ form.year_of_manufucture.value|default:'' }}">
-                    {% if form.year_of_manufucture.errors %}
-                        <p class="error">{{ form.year_of_manufucture.errors.0 }}</p>
-                    {% endif %}
-                </div>
-                <div class="year">
-                    <label for="year_of_manufucture">Year of Manufacturer: </label>
-                    <input type="text" name="year_of_manufucture" id="year_of_manufucture" placeholder="Enter Year of Manufacturer" value="{{ form.year_of_manufucture.value|default:'' }}">
-                    {% if form.year_of_manufucture.errors %}
-                        <p class="error">{{ form.year_of_manufucture.errors.0 }}</p>
-                    {% endif %}
-                </div>
-                <div>
-                    <label for="description">Description</label>
-                    <textarea name="description" id="brand-desc" placeholder="Enter Information about Brand">{{ form.description.value|default:'' }}</textarea>
-                    {% if form.description.errors %}
-                        <p class="error">{{ form.description.errors.0 }}</p>
-                    {% endif %}
-                </div>
-                
-                <div class="brand-image">
-                    <label for="image_file">Select Brand Image</label>
-                    <input type="file" name="image_file" id="image_file">
-                    {% if form.image_file.errors %}
-                        <p class="error">{{ form.image_file.errors.0 }}</p>
-                    {% endif %}
-                </div>
-            
-                <button type="submit">Add Brand</button> -->
                 <button type="submit" class="btn btn-primary">Submit</button>
                 
             </form>

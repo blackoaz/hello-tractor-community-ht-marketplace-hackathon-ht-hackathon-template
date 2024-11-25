@@ -156,109 +156,131 @@ main {
     height: 16px;
 }
 
-/* Footer */
-footer {
-    background-color: #1f2937;
-    color: white;
-    margin-top: 3rem;
-    padding: 3rem 0;
-    margin-top: auto; 
-}
-
-.footer-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1rem;
+/* seller and customer contact card section */
+/* General styling for container */
+.seller-contact-container {
     display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
+    margin-top: 2rem;
 }
 
-.footer-section h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+.seller-card,
+.customer-contact {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.footer-section p, .footer-section ul {
-    color: #9ca3af;
+/* Heading styling */
+.seller-card h2,
+.customer-contact h2 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
-.footer-section ul {
-    list-style: none;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.5rem;
-}
-
-.footer-section a {
-    color: #9ca3af;
-    text-decoration: none;
-}
-
-.footer-section a:hover {
-    color: white;
-}
-
-/* seller card section */
-.seller-card {
-    background-color: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 80%;
-    margin: auto;
-}
-
+/* Seller details */
 .seller-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    text-align: center;
 }
 
 .seller-logo img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    border-radius: 0.5rem;
+    max-width: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .seller-details h3 {
     font-size: 1.25rem;
-    font-weight: 600;
     margin-bottom: 0.5rem;
 }
 
 .seller-details p {
-    margin: 0.25rem 0;
-    font-size: 0.875rem;
-    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+    color: var(--muted-foreground);
 }
 
 .seller-details a {
+    color: var(--primary);
     text-decoration: none;
-    color: #1f2937;
+    transition: color 0.3s ease;
 }
 
-.seller-actions {
-    margin-top: 1rem;
+.seller-details a:hover {
+    color: var(--accent);
 }
 
-.seller-actions .view-profile {
-    background-color: #22c55e;
-    color: white;
+/* Button styling */
+.seller-actions button,
+.customer-contact button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    font-size: 1rem;
+    font-weight: bold;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius);
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.seller-actions .view-profile:hover {
-    background-color: #16a34a;
+.seller-actions button:hover,
+.customer-contact button:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
 }
+
+.seller-actions button:active,
+.customer-contact button:active {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+}
+
+/* Customer contact form */
+.customer-contact .form-group {
+    margin-bottom: 1rem;
+}
+
+.customer-contact label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.customer-contact input,
+.customer-contact textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--input);
+    color: var(--foreground);
+    font-size: 1rem;
+}
+
+.customer-contact input:focus,
+.customer-contact textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
 /* Responsive Design */
 @media (min-width: 768px) {
     .nav-links {
@@ -270,7 +292,13 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .footer-container {
-        grid-template-columns: repeat(3, 1fr);
+    .seller-contact-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .seller-card,
+    .customer-contact {
+        padding: 1.5rem;
     }
 }

@@ -213,5 +213,3 @@ def tractor_detail(request, pk):
 
     return render(request, 'sellers/registered_tractor_details.html', {'tractor': tractor, 'images': images})
 
-
-

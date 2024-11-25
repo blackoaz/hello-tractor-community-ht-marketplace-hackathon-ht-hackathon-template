@@ -1,22 +1,17 @@
 from django.db import models
 from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
-import uuid
 from django.db.models.signals import post_delete
-from main.models import CustomUser
+
+
+from main.models import CustomUser,Common
 from main.mongo_db import fs
-from admin_panel.models import TractorBrand
 
 # Create your models here.
-class Common(models.Model):
-    uid = models.UUIDField(default=uuid.uuid4(),primary_key=True, editable=False, unique=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
-
 class Seller(Common):
+    """
+    Model for registering a seller into the system
+    """
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -142,3 +137,12 @@ def delete_images_for_tractor(sender, instance, **kwargs):
 
 class Dealers(Common):
     pass
+
+
+class Sellers_Emails(Common):
+    customer_name = models.CharField(max_length=50)
+    email = models.EmailField(blank=False,null=False)
+    customer_message = models.TextField(blank=False,null=False)
+
+    def __str__(self) -> str:
+        return f"{self.customer_name}"

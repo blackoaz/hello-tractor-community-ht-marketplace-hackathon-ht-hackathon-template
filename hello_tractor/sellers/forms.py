@@ -1,5 +1,5 @@
 from django import forms
-from .models import Tractor, TractorImage, Seller
+from .models import Sellers_Emails, Tractor, TractorImage, Seller
 from main.mongo_db import fs
 
 
@@ -81,5 +81,11 @@ class TractorImageForm(forms.ModelForm):
             tractor_image.save()
         
         return tractor_image
+    
+
+class CustomerMessageForm(forms.ModelForm):
+    class Meta:
+        model = Sellers_Emails
+        fields = ['customer_name', 'email', 'customer_message']
 
 

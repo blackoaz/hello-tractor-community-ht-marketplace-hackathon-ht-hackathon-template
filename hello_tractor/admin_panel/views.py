@@ -49,6 +49,9 @@ def admin_tractors_dashboard(request):
 @login_required
 @staff_member_required
 def admin_brands_dashboard(request):
+    users = CustomUser.objects.all()
+    sellers = Seller.objects.all()
+    tractors = Tractor.objects.all()
     if request.method == 'POST':
         form = TractorBrandForm(request.POST, request.FILES) 
         if form.is_valid():

@@ -1,148 +1,159 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load hosts %}
 
 {% block title %}Hello Tractor - Vehicle Details{% endblock %}
 {% block content%}
-    <!-- Main Content -->
-    <main>
-        <div class="vehicle-container">
-            <!-- Image Section -->
-            <div class="vehicle-image-section">
-                <div class="image-container">
-                    <img src="https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80" alt="Nissan Serena">
-                    <div class="image-controls">
-                        <button class="nav-button prev">
-                            <img src="https://api.iconify.design/lucide:chevron-left.svg" alt="Previous">
-                        </button>
-                        <button class="nav-button next">
-                            <img src="https://api.iconify.design/lucide:chevron-right.svg" alt="Next">
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Details Section -->
-            <div class="vehicle-details">
-                <div class="vehicle-header">
-                    <h1>Nissan Serena</h1>
-                    <div class="meta-info">
-                        <span>
-                            <img src="https://api.iconify.design/lucide:clock.svg" alt="Time">
-                            10 months ago
-                        </span>
-                        <span>
-                            <img src="https://api.iconify.design/lucide:map-pin.svg" alt="Location">
-                            Nairobi
-                        </span>
-                    </div>
-                    <div class="price">
-                        <span>Ksh 1,930,000</span>
-                    </div>
-                </div>
-
-                <div class="specs-card">
-                    <h2>Vehicle Specifications</h2>
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <img src="https://api.iconify.design/lucide:car.svg" alt="Model">
-                            <div>
-                                <p class="label">Model</p>
-                                <p class="value">2016</p>
-                            </div>
-                        </div>
-                        <div class="spec-item">
-                            <img src="https://api.iconify.design/lucide:gauge.svg" alt="Engine">
-                            <div>
-                                <p class="label">Engine</p>
-                                <p class="value">1800cc Hybrid</p>
-                            </div>
-                        </div>
-                        <div class="spec-item">
-                            <img src="https://api.iconify.design/lucide:settings.svg" alt="Transmission">
-                            <div>
-                                <p class="label">Transmission</p>
-                                <p class="value">Automatic</p>
-                            </div>
-                        </div>
-                        <div class="spec-item">
-                            <img src="https://api.iconify.design/lucide:fuel.svg" alt="Fuel">
-                            <div>
-                                <p class="label">Fuel Type</p>
-                                <p class="value">Hybrid</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="features-card">
-                    <h2>Features</h2>
-                    <ul class="features-grid">
-                        <li>
-                            <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
-                            Anti Collision
-                        </li>
-                        <li>
-                            <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
-                            Pilot Mode
-                        </li>
-                        <li>
-                            <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
-                            Cruise Control
-                        </li>
-                        <li>
-                            <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
-                            Electric Handbrakes
-                        </li>
-                        <li>
-                            <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
-                            Leather Interior
-                        </li>
-                        <li>
-                            <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
-                            Bluetooth Audio
-                        </li>
-                    </ul>
+<link rel="stylesheet" href="{% static 'css/vehicle_details.css' %}">
+<!-- Main Content -->
+<main>
+    <div class="vehicle-container">
+        <!-- Image Section -->
+        <div class="vehicle-image-section">
+            <div class="image-container">
+                <!-- Display the first image or a placeholder if no images are found -->
+                {% if images %}
+                    <img id="current-image" src="{{ images.0.url }}" alt="{{ tractor.tractor_name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/600x400" alt="No Image Available">
+                {% endif %}
+        
+                <!-- Navigation Controls -->
+                <div class="image-controls">
+                    <button class="nav-button prev" onclick="showPreviousImage()">
+                        <img src="https://api.iconify.design/lucide:chevron-left.svg" alt="Previous">
+                    </button>
+                    <button class="nav-button next" onclick="showNextImage()">
+                        <img src="https://api.iconify.design/lucide:chevron-right.svg" alt="Next">
+                    </button>
                 </div>
             </div>
         </div>
+        
+        <!-- Details Section -->
+        <div class="vehicle-details">
+            <div class="vehicle-header">
+                <h1>{{tractor.tractor_name}}</h1>
+                <div class="meta-info">
+                    <span>
+                        <img src="https://api.iconify.design/lucide:clock.svg" alt="Time">
+                        <span>{{ tractor.created|timesince }} ago</span>
+                    </span>
+                    <span>
+                        <img src="https://api.iconify.design/lucide:map-pin.svg" alt="Location">
+                        <span>{{ tractor.location }}</span>
+                    </span>
+                </div>
+                <div class="price">
+                    <span>Ksh {{ tractor.price }}</span>
+                </div>
+            </div>
 
+            <div class="specs-card">
+                <h2>Vehicle Specifications</h2>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <img src="https://api.iconify.design/lucide:car.svg" alt="Model">
+                        <div>
+                            <p class="label">Model</p>
+                            <p class="value">{{ tractor.model }}</p>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <img src="https://api.iconify.design/lucide:gauge.svg" alt="Engine">
+                        <div>
+                            <p class="label">Engine</p>
+                            <p class="value">{{tractor.engine_capacity}} cc</p>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <img src="https://api.iconify.design/lucide:settings.svg" alt="Transmission">
+                        <div>
+                            <p class="label">Transmission</p>
+                            <p class="value">{{tractor.transmission}}</p>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <img src="https://api.iconify.design/lucide:fuel.svg" alt="Fuel">
+                        <div>
+                            <p class="label">Fuel Type</p>
+                            <p class="value">{{ tractor.fuel_type }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-card">
+                <h2>Features</h2>
+                <ul class="features-grid">
+                    <li>
+                        <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
+                        {{tractor.Wheel_Drive}}
+                    </li>
+                    <li>
+                        <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
+                        {{ tractor.horse_power }}
+                    </li>
+                    <li>
+                        <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
+                        {{ tractor.Number_of_cylinders }}
+                    </li>
+                    <li>
+                        <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
+                        {{ tractor.forward_speed }}
+                    </li>
+                    <li>
+                        <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
+                        {{ tractor.reverse_speed }}
+                    </li>
+                    <li>
+                        <img src="https://api.iconify.design/lucide:shield.svg?color=%2322c55e" alt="Feature">
+                        {{ tractor.lifting_capacity }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="seller-contact-container">
         <div class="seller-card">
             <h2>Seller Information</h2>
             <div class="seller-info">
                 <div class="seller-logo">
-                    <img src="{% static 'mymoti-logo.png' %}" alt="Mymoti Logo">
+                    <img src="../../static/images/brands/massey-ferguson-brand.webp" alt="Mymoti Logo">
                 </div>
                 <div class="seller-details">
-                    <h3>Hello Tractor</h3>
-                    <p>Phone: <a href="tel:+2547000000000">+2547000000000</a></p>
-                    <p>Email: <a href="mailto:info@hellotractor.co.ke">info@hellotractor.co.ke</a></p>
-                    <p>Hello Tractor is a leading digital automotive marketplace for buying and selling tractors, tractor financing, tractor insurance, tractor parts, and garage services.</p>
+                    <h3>{{tractor.tractor_seller}}</h3>
+                    <p>Phone: <a href="tel:+2547000000000">{{tractor.tractor_seller.contact_number}}</a></p>
+                    <p>Email: <a href="mailto:info@hellotractor.co.ke">{{tractor.tractor_seller.contact_email}}</a></p>
+                    <p>{{tractor.tractor_seller.seller_description}}</p>
                 </div>
                 <div class="seller-actions">
                     <button class="view-profile">View Profile</button>
                 </div>
             </div>
         </div>
-
+    
         <div class="customer-contact">
-            <form action="" method="post">
+            <form action="{% url 'vehicle_details' tractor.uid %}" method="post">
                 <h2>Contact Seller</h2>
+                {% csrf_token %}
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" name="name" id="name" placeholder="Enter your name">
+                    <label for="customer_name">Name</label>
+                    <input type="text" name="customer_name" id="name" placeholder="Enter your name">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="Enter your email">
                 </div>
                 <div class="form-group message">
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message" placeholder="Enter your message"></textarea>
+                    <label for="customer_message">Message</label>
+                    <textarea name="customer_message" id="message" placeholder="Enter your message"></textarea>
                 </div>
                 <button type="submit">Send Message</button>
             </form>
-            
         </div>
-        
-    </main>
-    {% endblock %} 
+    </div>
+</main>
+<script src="{% static 'js/vehicle_details.js' %}"></script>
+{% endblock %}
