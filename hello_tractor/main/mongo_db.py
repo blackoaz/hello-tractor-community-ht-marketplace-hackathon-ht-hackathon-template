@@ -6,7 +6,7 @@ from admin_panel.models import TractorBrand
 from pymongo.errors import DuplicateKeyError
 
 # Connect to MongoDB
-client = MongoClient(os.environ.get('MONGODB_URL',"mongodb://mongoDb:27017/"))
+client = MongoClient(os.environ.get('MONGODB_URL'))
 db = client['tractor_app']
 fs = GridFS(db)
 

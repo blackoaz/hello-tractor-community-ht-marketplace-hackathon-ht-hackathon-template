@@ -1,0 +1,48 @@
+.main-header{
+    text-align: center;
+    color: var(--primary);
+}
+
+.tractor-sale {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: var(--background);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+/* form labels */
+.tractor-sale label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* form inputs */
+.tractor-sale input[type="text"],
+.tractor-sale input[type="number"],
+.tractor-sale textarea,
+.tractor-sale select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Style the submit button */
+.tractor-sale .btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.tractor-sale .btn:hover {
+    background-color: var(--accent);
+}

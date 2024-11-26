@@ -1,28 +1,231 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.5;
+    background-color: #f9fafb;
+    color: #1f2937;
+    
+}
+
 :root {
-    --background: 218 65% 100%;
-    --foreground: 218 69% 2%;
-    --muted: 188 35% 92%;
-    --muted-foreground: 188 11% 36%;
-    --popover: 0 0% 99%;
-    --popover-foreground: 218 69% 1%;
-    --card: 0 0% 99%;
-    --card-foreground: 218 69% 1%;
-    --border: 218 10% 95%;
-    --input: 218 10% 95%;
-    --primary: 13.8 100% 60.78%;
-    --primary-foreground: 218 47% 99%;
-    --secondary: 300 43.28% 26.27%;
-    --secondary-foreground: 0 0% 100%;
-    --accent: 193.47 73.13% 39.41%;
-    --accent-foreground: 248 47% 99%;
-    --destructive: 13 98% 27%;
-    --destructive-foreground: 13 98% 87%;
-    --ring: 218 47% 39%;
+    --background: hsl(218 65% 100%);
+    --foreground: hsl(218 69% 2%);
+    --muted: hsl(188 35% 92%);
+    --muted-foreground: hsl(188 11% 36%);
+    --popover: hsl(0 0% 99%);
+    --popover-foreground: hsl(218 69% 1%);
+    --card: hsl(0 0% 99%);
+    --card-foreground: hsl(218 69% 1%);
+    --border: hsl(218 10% 95%);
+    --input: hsl(218 10% 95%);
+    --primary: hsl(13.8 100% 60.78%);
+    --primary-foreground: hsl(218 47% 99%);
+    --secondary: hsl(300 43.28% 26.27%);
+    --secondary-foreground: hsl(0 0% 100%);
+    --accent: hsl(193.47 73.13% 39.41%);
+    --accent-foreground: hsl(248 47% 99%);
+    --destructive: hsl(13 98% 27%);
+    --destructive-foreground: hsl(13 98% 87%);
+    --ring: hsl(218 47% 39%);
     --radius: 0.5rem;
-  }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+}
+
+.navigation-sec {
+    background-color: var(--primary-foreground);
+    padding: 10px 0;
+}
+
+nav {
+    background-color: var(--primary-foreground);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+.header-sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem;
+    position: sticky;
+    top:0;
+    z-index: 1002;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.logo-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin-right: 20px;
+}
+
+.nav-links li {
+    font-size: 1rem;
+    color: var(--muted-foreground);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+.nav-links li:hover {
+    text-decoration: underline;
+}
+
+/* Styling for the Sell a Tractor button */
+.sell-btn {
+    margin-left: 20px;
+}
+
+.sell-btn button {
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.sell-btn button:hover {
+    background-color: var(--accent);
+}
+
+/* Default (Desktop) Styles */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin-right: 20px;
+}
+
+/* Desktop Styles */
+.menu-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.hamburg-menu {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.tractor-options {
+    position: relative;
+}
+
+.tractor-options:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: var(--primary-foreground);
+    min-width: 160px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s;
+    color: var(--accent);
+}
+.dropdown-content li{
+    list-style: none;
+}
+
+.dropdown-content li:hover {
+    background-color: var(--muted);
+}
+
+.dropdown-content a:hover {
+    background-color: var(--muted);
+    color: var(--primary);
+}
+
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .menu-content {
+        display: none;
+        flex-direction: column;
+        background-color: var(--primary-foreground);
+        position: absolute;
+        top: 0; 
+        left: 0;
+        right: 0;
+        gap: 10px;
+        text-align: center;
+        padding: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+    }
+
+    .menu-content.show {
+        display: flex;
+        justify-content: left;
+        width: 50%;
+        height: 100vh;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        
+        gap: 15px;
+    }
+
+    .sell-btn button {
+        width: 90%;
+        margin: 10px auto;
+        padding: 10px 20px;
+    }
+
+    .hamburg-menu {
+        display: block;
+    }
+}
