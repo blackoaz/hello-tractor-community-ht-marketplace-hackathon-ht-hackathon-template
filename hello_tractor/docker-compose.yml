@@ -4,15 +4,45 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      -8000:8000
+      - "8000:8000"
+    depends_on:
+      - mongoDb
+    volumes:
+      - .:/usr/app
 
   mongoDb:
+    image: mongo:5.0
+    restart: always
     ports:
-      - 27017:27017
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_USER
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+
+    env_file:
+      - .env
     volumes:
-      - mongovolume:containerPath:ro
+      - mongovolume:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  volumes:
-   - mongovolume
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongoDb:27017/  # Explicit connection string
+      ME_CONFIG_MONGODB_ADMINUSERNAME: $MONGO_USER
+      ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_PASSWORD
+      ME_CONFIG_MONGODB_SERVER: mongoDb
+      ME_CONFIG_BASICAUTH: "true"
+      ME_CONFIG_BASICAUTH_USERNAME: $MONGO_USER
+      ME_CONFIG_BASICAUTH_PASSWORD: $MONGO_PASSWORD
+    depends_on:
+      - mongoDb
 
-  
+volumes:
+  mongovolume:

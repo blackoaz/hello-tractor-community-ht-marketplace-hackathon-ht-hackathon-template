@@ -1,30 +1,21 @@
 from pymongo import MongoClient
 from gridfs import GridFS
+import os
 
 from admin_panel.models import TractorBrand
+from pymongo.errors import DuplicateKeyError
 
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017/")
-db = client['Tractor_App']
-fs = GridFS(db)
-
-# Save an image to MongoDB
-import os
-from gridfs import GridFS
-from pymongo import MongoClient
-
-# Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(os.environ.get('MONGODB_URL',"mongodb://mongoDb:27017/"))
 db = client['tractor_app']
 fs = GridFS(db)
-from pymongo.errors import DuplicateKeyError
+
 
 def save_images_from_directory(directory_path, brand_name):
     """
     Save all images from the specified directory into MongoDB GridFS, 
     associating them with a tractor brand, if they don't already exist.
     """
-    # Ensure the brand exists in the database
     try:
         brand = TractorBrand.objects.get(name=brand_name)
     except TractorBrand.DoesNotExist:

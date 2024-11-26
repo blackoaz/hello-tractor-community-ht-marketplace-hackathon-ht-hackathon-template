@@ -1,20 +1,29 @@
-FROM python:3.10-slim
+# Using Python 3.10 with Debian Bullseye base
+FROM python:3.10-bullseye
 
-WORKDIR /usr/
+# Setting working directory in the container
+WORKDIR /usr/app/
 
+# Copying requirements file first to leverage Docker caching
 COPY requirements.txt .
 
-# # create virtual environment
-# RUN python3 -m venv /opt/venv 
+# Creating virtual environment, upgrade pip, and install dependencies
+RUN python -m venv /opt/venv && \
+    /opt/venv/bin/pip install --no-cache-dir --upgrade pip && \
+    /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# # activate virtual environment
-# RUN /opt/venv/bin/pip install -r requirements.txt
+# Setting virtual environment PATH for all subsequent commands
+ENV PATH="/opt/venv/bin:$PATH"
 
-# RUN pip install --upgrade pip
-# # do pip install
-RUN pip install -r --no-cache-dir requirements.txt
-# RUN pip install gunicorn
-
+# Copying application code into the container
 COPY . .
 
-CMD ["python", "manage.py", "runserver"]
+# Exposing the application port
+EXPOSE 8000
+
+# Copying the entrypoint script and make it executable
+COPY entrypoint.sh /usr/app/
+RUN chmod +x /usr/app/entrypoint.sh
+
+# Using entrypoint script to run the application
+CMD ["/usr/app/entrypoint.sh"]
