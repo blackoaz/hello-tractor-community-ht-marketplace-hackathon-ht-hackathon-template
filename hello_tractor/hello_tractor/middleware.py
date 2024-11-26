@@ -12,8 +12,8 @@ class DynamicRedirectMiddleware(MiddlewareMixin):
         prod_url = os.getenv("BASE_URL_PROD", "").strip()
 
         # Determine the appropriate base URL based on DEBUG mode
-        # current_base_url = base_url if debug_mode else prod_url # temporary measure to deploy in render
-        current_base_url = prod_url
+        current_base_url = base_url if debug_mode else prod_url 
+        # current_base_url = prod_url
         current_host = request.get_host()
 
         print(f"Request host: {current_host}")

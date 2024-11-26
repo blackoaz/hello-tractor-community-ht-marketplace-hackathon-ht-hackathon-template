@@ -16,7 +16,7 @@ from pymongo.errors import DuplicateKeyError
 # db = client['tractor_app']
 # fs = GridFS(db)
 
-# # Test the connection
+# Test the connection
 # try:
 #     client.admin.command('ping')
 #     print("Pinged your deployment. You successfully connected to MongoDB!")
