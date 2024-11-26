@@ -1,14 +1,38 @@
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from gridfs import GridFS
 import os
 
 from admin_panel.models import TractorBrand
 from pymongo.errors import DuplicateKeyError
 
-# Connect to MongoDB
-client = MongoClient("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongoDb:27017/")
+# # Connect to MongoDB
+# client = MongoClient(
+#     'mongodb+srv://${MONGO_USER}:{MONGO_PASSWORD}@hellotractor.sna2a.mongodb.net/?retryWrites=true&w=majority&appName=HelloTractor'
+# )
+# db = client['tractor_app']
+# fs = GridFS(db)
+
+uri = (
+    f"mongodb+srv://{os.getenv('MONGO_USER')}:{os.getenv('MONGO_PASSWORD')}"
+    "@hellotractor.sna2a.mongodb.net/?retryWrites=true&w=majority&appName=HelloTractor"
+)
+
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
 db = client['tractor_app']
 fs = GridFS(db)
+
+# Test the connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(f"Connection failed: {e}")
+
+# client = MongoClient("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongoDb:27017/")
+# db = client['tractor_app']
+# fs = GridFS(db)
 
 
 def save_images_from_directory(directory_path, brand_name):
