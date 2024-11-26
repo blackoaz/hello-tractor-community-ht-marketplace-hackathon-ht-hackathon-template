@@ -9,7 +9,7 @@ from .utils.utils import forward_email_to_seller_from_customer
 
 from .forms import NewsletterSubscriptionForm
 from sellers.forms import CustomerMessageForm
-from .mongo_db import fs
+from .mongo_db import fs, save_images_from_directory
 from sellers.models import Tractor
 from django.db.models import F 
 from admin_panel.models import TractorBrand
@@ -25,6 +25,12 @@ def homepage(request):
     ).order_by('-is_featured', '-created').annotate(
         seller_name=F('tractor_seller__user__username')
     )
+
+    image_path = Path(__file__).resolve().parent.parent / "static/images/brands"
+    # for file in fs.find({"metadata.category": "tractor_brand"}):
+    #     print(f"Deleting brand image: {file.filename}")
+    #     fs.delete(file._id)
+    save_images_from_directory(image_path)
 
     if request.method == 'POST':
         # steps for subscribing users to our newsletters
@@ -106,22 +112,58 @@ def filtered_tractors(request):
     price = request.GET.get('price')
     if price:
         tractors = tractors.filter(price__lte=price)
-    context={'tractors': tractors, 'brands':brands}
+
+    tractor_list = []
+    for tractor in tractors:
+        # Fetch the image associated with the tractor from GridFS
+        file = fs.find_one({'metadata.tractor_uid': str(tractor.uid)})
+        image_url = f"/images/{file.filename}" if file else None
+
+        tractor_list.append({
+            'uid': tractor.uid,
+            'name': tractor.tractor_name,
+            'model': tractor.model,
+            'location': tractor.location,
+            'price': tractor.price,
+            'condition': tractor.condition,
+            'seller_name': tractor.tractor_seller,
+            'transmission': tractor.transmission,
+            'fuel_type': tractor.fuel_type,
+            'image_url': image_url,
+            'is_featured': tractor.is_featured,
+            'created': tractor.created,
+        })
+
+    context = {
+        'tractors': tractor_list,
+        'brands': brands,
+    }
     print(tractors)
     return render(request, 'main/filtered_tractors.html',context=context)
 
 # view function for serving tractor brand images
-def serve_image(request, file_id):
+def serve_image(request, filename):
     """
-    Serve an image from MongoDB GridFS by its ID.
+    Function for retrieving image from MongoDb,
+    parameter(filename)
     """
-    try:
-        grid_out = fs.get(ObjectId(file_id))
-        response = HttpResponse(grid_out, content_type=grid_out.content_type)
-        response['Content-Disposition'] = f'inline; filename="{grid_out.filename}"'
-        return response
-    except Exception as e:
-        return HttpResponse(f"Error: {e}", status=404)
+    print(f"Serving image: {filename}")
+    file = fs.find_one({"filename": filename})
+    if file:
+        return HttpResponse(file.read(), content_type=file.content_type)
+    print(f"Image not found: {filename}")
+    return HttpResponse("Image not found", status=404)
+# def serve_image(request, file_id):
+#     """
+#     Serve an image from MongoDB GridFS by its ID.
+#     """
+#     try:
+#         grid_out = fs.get(ObjectId(file_id))
+#         response = HttpResponse(grid_out, content_type=grid_out.content_type)
+#         response['Content-Disposition'] = f'inline; filename="{grid_out.filename}"'
+#         return response
+#     except Exception as e:
+#         return HttpResponse(f"Error: {e}", status=404)
 
 def serve_brand_image(request, filename):
     """
@@ -155,10 +197,7 @@ def upload_image(request):
     return HttpResponse("Invalid request", status=400)
 
 
-# view function for vehicle_details
-import json
-
-def vehicle_details(request, uid):
+def tractor_details(request, uid):
     try:
         tractor = Tractor.objects.get(uid=uid)
     except Tractor.DoesNotExist:
