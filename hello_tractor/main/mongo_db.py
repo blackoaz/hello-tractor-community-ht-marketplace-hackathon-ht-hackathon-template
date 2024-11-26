@@ -6,7 +6,7 @@ from admin_panel.models import TractorBrand
 from pymongo.errors import DuplicateKeyError
 
 # Connect to MongoDB
-client = MongoClient(os.environ.get('MONGODB_URL'))
+client = MongoClient("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongoDb:27017/")
 db = client['tractor_app']
 fs = GridFS(db)
 
@@ -58,5 +58,4 @@ def get_image(filename):
     if file:
         return file.read(), file.content_type
     return None, None
-
 
