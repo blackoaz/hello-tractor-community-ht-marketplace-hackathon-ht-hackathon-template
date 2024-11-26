@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from urllib.parse import urlparse
 from dotenv import load_dotenv
-from django_hosts import reverse
+import psycopg2
 
 load_dotenv() 
 
@@ -28,13 +28,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', '') != False
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
+
 
 if DEBUG:
-    ALLOWED_HOSTS = ['127.0.0.1','.localhost']
+    ALLOWED_HOSTS = ['*']
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['hello-tractor-latest.onrender.com/']
+
+print(DEBUG)
+print(ALLOWED_HOSTS)
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -70,6 +73,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -115,21 +119,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-
-# def dynamic_login_redirect_url(request):
-#     """Dynamically determine LOGIN_REDIRECT_URL based on the host."""
-#     if request.get_host() == 'admin.localhost:8000':
-#         return reverse('admin_dashboard', host='admin')
-#     elif request.get_host() == 'sellers.localhost:8000':
-#         return reverse('seller_dashboard', host='sellers')
-#     else:
-#         return reverse('homepage', host='main')
-
-# LOGIN_REDIRECT_URL = dynamic_login_redirect_url
-# LOGOUT_REDIRECT_URL = dynamic_login_redirect_url
-# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/'
-# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
-
+LOGIN_REDIRECT_URL= '/'
 
 
 ROOT_URLCONF = 'hello_tractor.urls'
@@ -160,14 +150,43 @@ WSGI_APPLICATION = 'hello_tractor.wsgi.application'
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
-# Get the DATABASE_URL from the environment
+# Retrieve the DATABASE_URL from the environment
 DATABASE_URL = os.getenv("DATABASE_URL")
 
+# # Ensure the DATABASE_URL exists
+# if not DATABASE_URL:
+#     print("Error: DATABASE_URL environment variable is not set.")
+#     exit(1)
+
+# # Parse the DATABASE_URL to get the endpoint ID and ensure it's formatted correctly
+# try:
+#     endpoint_id = DATABASE_URL.split("//")[1].split('.')[0]
+#     # Add the endpoint parameter if missing
+#     if '?options=' not in DATABASE_URL:
+#         DATABASE_URL += f"?options=endpoint%3D{endpoint_id}"
+#     # Ensure SSL mode is set to 'require'
+#     if 'sslmode=' not in DATABASE_URL:
+#         DATABASE_URL += "&sslmode=require"
+# except Exception as e:
+#     print(f"Error modifying DATABASE_URL: {e}")
+#     exit(1)
+
+# # Test PostgreSQL connection using psycopg2
+# try:
+#     connection = psycopg2.connect(DATABASE_URL)
+#     print("Connected successfully to PostgreSQL!")
+#     connection.close()
+# except Exception as e:
+#     print(f"PostgreSQL connection failed: {e}")
+
+# Parse the DATABASE_URL for Django database settings
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 try:
     # Attempt to parse the DATABASE_URL for PostgreSQL
-    tmpPostgres = urlparse(os.getenv("DATABASE_URL", ""))
+    tmpPostgres = urlparse(DATABASE_URL)
+    
+    # Django DATABASES settings
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -178,8 +197,8 @@ try:
             'PORT': tmpPostgres.port or 5432,
         }
     }
-    # Test connection to PostgreSQL
-    import psycopg2
+
+    # Test the PostgreSQL connection with Django's configuration
     conn = psycopg2.connect(
         dbname=DATABASES['default']['NAME'],
         user=DATABASES['default']['USER'],
@@ -188,15 +207,17 @@ try:
         port=DATABASES['default']['PORT'],
     )
     conn.close()
+    print("PostgreSQL database connection successful!")
 except Exception as e:
     print(f"PostgreSQL connection failed: {e}. Switching to SQLite.")
+    # Fallback to SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
+    print("Using SQLite as the database.")
 
 
 # Password validation
@@ -234,8 +255,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
