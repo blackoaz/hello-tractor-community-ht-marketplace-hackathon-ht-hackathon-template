@@ -119,6 +119,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_NOTIFICATIONS = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
+LOGIN_REDIRECT_URL= '/'
+
 
 ROOT_URLCONF = 'hello_tractor.urls'
 ROOT_HOSTCONF = 'hello_tractor.hosts'
@@ -151,31 +153,31 @@ AUTH_USER_MODEL = 'main.CustomUser'
 # Retrieve the DATABASE_URL from the environment
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Ensure the DATABASE_URL exists
-if not DATABASE_URL:
-    print("Error: DATABASE_URL environment variable is not set.")
-    exit(1)
+# # Ensure the DATABASE_URL exists
+# if not DATABASE_URL:
+#     print("Error: DATABASE_URL environment variable is not set.")
+#     exit(1)
 
-# Parse the DATABASE_URL to get the endpoint ID and ensure it's formatted correctly
-try:
-    endpoint_id = DATABASE_URL.split("//")[1].split('.')[0]
-    # Add the endpoint parameter if missing
-    if '?options=' not in DATABASE_URL:
-        DATABASE_URL += f"?options=endpoint%3D{endpoint_id}"
-    # Ensure SSL mode is set to 'require'
-    if 'sslmode=' not in DATABASE_URL:
-        DATABASE_URL += "&sslmode=require"
-except Exception as e:
-    print(f"Error modifying DATABASE_URL: {e}")
-    exit(1)
+# # Parse the DATABASE_URL to get the endpoint ID and ensure it's formatted correctly
+# try:
+#     endpoint_id = DATABASE_URL.split("//")[1].split('.')[0]
+#     # Add the endpoint parameter if missing
+#     if '?options=' not in DATABASE_URL:
+#         DATABASE_URL += f"?options=endpoint%3D{endpoint_id}"
+#     # Ensure SSL mode is set to 'require'
+#     if 'sslmode=' not in DATABASE_URL:
+#         DATABASE_URL += "&sslmode=require"
+# except Exception as e:
+#     print(f"Error modifying DATABASE_URL: {e}")
+#     exit(1)
 
-# Test PostgreSQL connection using psycopg2
-try:
-    connection = psycopg2.connect(DATABASE_URL)
-    print("Connected successfully to PostgreSQL!")
-    connection.close()
-except Exception as e:
-    print(f"PostgreSQL connection failed: {e}")
+# # Test PostgreSQL connection using psycopg2
+# try:
+#     connection = psycopg2.connect(DATABASE_URL)
+#     print("Connected successfully to PostgreSQL!")
+#     connection.close()
+# except Exception as e:
+#     print(f"PostgreSQL connection failed: {e}")
 
 # Parse the DATABASE_URL for Django database settings
 BASE_DIR = Path(__file__).resolve().parent.parent
