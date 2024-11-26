@@ -182,7 +182,7 @@ def register_new_tractor_for_sale(request):
                         mongo_filename=handle_mongo_tractor_for_sale_upload(image, tractor_instance)
                     )
 
-                return redirect('tractor_detail', pk=tractor_instance.uid)
+                # return redirect('tractor_detail', pk=tractor_instance.uid)
 
         else:
             tractor_form = TractorForm()

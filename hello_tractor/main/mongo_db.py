@@ -23,42 +23,36 @@ from pymongo.errors import DuplicateKeyError
 # except Exception as e:
 #     print(f"Connection failed: {e}")
 
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongoDb:27017/")
 db = client['tractor_app']
 fs = GridFS(db)
 
 
-def save_images_from_directory(directory_path, brand_name):
+def save_images_from_directory(directory_path):
     """
     Save all images from the specified directory into MongoDB GridFS, 
-    associating them with a tractor brand, if they don't already exist.
+    only if they do not already exist.
+    only if they do not already exist, with metadata indicating they belong to the tractor brands.
     """
-    try:
-        brand = TractorBrand.objects.get(name=brand_name)
-    except TractorBrand.DoesNotExist:
-        print(f"Brand '{brand_name}' does not exist. Please create it first.")
-        return
-
     for filename in os.listdir(directory_path):
         file_path = os.path.join(directory_path, filename)
         if os.path.isfile(file_path):
             # Check if the file already exists in MongoDB
-            if fs.find_one({"filename": filename, "metadata.brand": brand_name}):
-                print(f"File {filename} already exists for brand {brand_name}. Skipping.")
-                continue
+            if fs.find_one({"filename": filename}):
+                if fs.find_one({"filename": filename,"metadata.category": "tractor_brand"}):
+                    print(f"File {filename} already exists in MongoDB. Skipping.")
+                    continue
 
+            # Save file to GridFS
             with open(file_path, "rb") as f:
+                fs.put(f, filename=filename)
+                print(f"Saved {filename} to MongoDB.")
                 metadata = {
-                    "category": "tractor_brand",
+                    "category": "tractor_brand",  
                     "filename": filename,
-                    "brand": brand_name,
                 }
-                try:
-                    fs.put(f, filename=filename, metadata=metadata)
-                    print(f"Saved {filename} to MongoDB for brand {brand_name}.")
-                except DuplicateKeyError:
-                    print(f"Duplicate file detected: {filename}. Skipping.")
-
+                fs.put(f, filename=filename, metadata=metadata)
+                print(f"Saved {filename} to MongoDB with metadata.")
 
 def get_image(filename):
     """

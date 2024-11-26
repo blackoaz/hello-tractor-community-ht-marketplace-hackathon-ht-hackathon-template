@@ -64,7 +64,9 @@ class Locations(Common):
 class Tractor(Common):
     BRANDS = (
         ('John Deere','John Deere'),
-        ('Mercy Ferguson','John Deere')
+        ('Massey Ferguson','Massey Ferguson'),
+        ('Mahindra','Mahindra'),
+        ('Swaraj','Swaraj')
     )
     CONDITION = (
         ('New Tractor','New Tractor'),
