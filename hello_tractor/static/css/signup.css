@@ -1,0 +1,133 @@
+:root {
+    --background: hsl(218 65% 100%);
+    --foreground: hsl(218 69% 2%);
+    --muted: hsl(188 35% 92%);
+    --muted-foreground: hsl(188 11% 36%);
+    --popover: hsl(0 0% 99%);
+    --popover-foreground: hsl(218 69% 1%);
+    --card: hsl(0 0% 99%);
+    --card-foreground: hsl(218 69% 1%);
+    --border: hsl(218 10% 95%);
+    --input: hsl(218 10% 95%);
+    --primary: hsl(13.8 100% 60.78%);
+    --primary-foreground: hsl(218 47% 99%);
+    --secondary: hsl(300 43.28% 26.27%);
+    --secondary-foreground: hsl(0 0% 100%);
+    --accent: hsl(193.47 73.13% 39.41%);
+    --accent-foreground: hsl(248 47% 99%);
+    --destructive: hsl(13 98% 27%);
+    --destructive-foreground: hsl(13 98% 87%);
+    --ring: hsl(218 47% 39%);
+    --radius: 0.5rem;
+}
+
+* {
+    box-sizing: border-box;
+  }
+  
+.signup-container {
+  max-width: 440px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+ .signup-title {
+  color: var(--primary);
+  font-size: 1.875rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+    width: 100%;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .form-group:focus {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px var(--ring/20);
+  }
+  
+  .form-group::placeholder {
+    color: var(--muted-foreground);
+  }
+
+.signup-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.signup-button:hover {
+  background-color: hsl(13.8 100% 55%);
+}
+
+.passkey-button {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.passkey-button:hover {
+  background-color: var(--primary/10);
+}
+
+.divider {
+  margin: 2rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.error-message {
+  color: var(--destructive);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.social-login {
+  margin-top: 2rem;
+}

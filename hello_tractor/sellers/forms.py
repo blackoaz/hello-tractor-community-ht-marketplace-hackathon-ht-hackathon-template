@@ -1,11 +1,30 @@
 from django import forms
-from .models import Tractor, TractorImage, Seller
+from .models import Sellers_Emails, Tractor, TractorImage, Seller
 from main.mongo_db import fs
 
 
-# sellers registration form
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
 
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
+# sellers registration form
 class SellerRegistrationForm(forms.ModelForm):
+    """
+    Form for registring a new customer as a seller on Hello Tractor platform
+    """
     logo = forms.ImageField(required=False)
 
     class Meta:
@@ -14,16 +33,30 @@ class SellerRegistrationForm(forms.ModelForm):
 
 
 class TractorForm(forms.ModelForm):
+    """
+    Form for registering a new tractor that the user wants to advertise 
+    on hello tractor platform
+    """
     class Meta:
         model = Tractor
         fields = ['tractor_name', 'model', 'year_of_manufucture', 'engine_capacity',
-                  'price', 'location', 'condition', 'fuel_type', 'transmission']
+                  'price', 'location', 'condition', 'fuel_type', 'transmission','Tractor_description',
+                  'Wheel_Drive','horse_power','Number_of_cylinders','mileage','forward_speed',
+                  'reverse_speed','lifting_capacity','is_featured','is_available']
+
 
 class ImageUploadForm(forms.Form):
-    image = forms.ImageField()
+    """
+    A form for taking user uploaded images and storing in MongoDb,
+    The seller can add multiple images
+    """
+    images = MultipleFileField(label='Select files', required=True)
 
 
 class TractorImageForm(forms.ModelForm):
+    """
+    Form for Uploading Tractor images on the Admin section
+    """
     image_file = forms.ImageField()
 
     class Meta:
@@ -48,5 +81,11 @@ class TractorImageForm(forms.ModelForm):
             tractor_image.save()
         
         return tractor_image
+    
+
+class CustomerMessageForm(forms.ModelForm):
+    class Meta:
+        model = Sellers_Emails
+        fields = ['customer_name', 'email', 'customer_message']
 
 

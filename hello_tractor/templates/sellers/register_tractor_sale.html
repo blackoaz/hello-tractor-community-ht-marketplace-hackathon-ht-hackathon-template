@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load hosts %}
+
+{% block title %}
+    Hello Tractor - register tractor for sale
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/brand.css' %}">
+<section class="dashboard-container">
+
+    <div class="dashboard-body">
+        {% include 'sellers/sellers_sidebar.html' %}
+        <main>
+            <h2 class="main-header">Register Tractor for Sale</h2>
+            <form action="#" method="post" enctype="multipart/form-data" class="tractor-sale">
+                {% csrf_token %}
+                <h3>Tractor Details</h3>
+                {{ tractor_form.as_p }}
+
+                <h3>Upload Images</h3>
+                {{ image_form.as_p }}
+                <button type="submit" class="btn btn-primary">Submit</button>
+                
+            </form>
+
+            
+            
+        </main>
+    </div>
+</section>
+
+{% endblock %}
+
+{% include 'main/footer.html' %}

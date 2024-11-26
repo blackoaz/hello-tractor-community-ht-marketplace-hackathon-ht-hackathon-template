@@ -1,44 +1,53 @@
+{% load static %}
 {% load allauth i18n %}
-{% block head_title %}
-    {% trans "Signup" %}
-{% endblock head_title %}
+
 {% block content %}
-    {% element h1 %}
-        {% trans "Sign Up" %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+<div class="signup-container">
+    <h1 class="signup-title">Sign Up</h1>
+    
+
+    {% element p class="signup-text" %}
+    {% blocktranslate %}
+    Already have an account? Then please <a href="{{ login_url }}">sign in</a>.
+    {% endblocktranslate %}
     {% endelement %}
-    {% setvar link %}
-        <a href="{{ login_url }}">
-        {% endsetvar %}
-        {% setvar end_link %}
-        </a>
-    {% endsetvar %}
-    {% element p %}
-        {% blocktranslate %}Already have an account? Then please {{ link }}sign in{{ end_link }}.{% endblocktranslate %}
-    {% endelement %}
+
     {% if not SOCIALACCOUNT_ONLY %}
-        {% url 'account_signup' as action_url %}
-        {% element form form=form method="post" action=action_url tags="entrance,signup" %}
-            {% slot body %}
-                {% csrf_token %}
-                {% element fields form=form unlabeled=True %}
-                {% endelement %}
-                {{ redirect_field }}
-            {% endslot %}
-            {% slot actions %}
-                {% element button tags="prominent,signup" type="submit" %}
-                    {% trans "Sign Up" %}
-                {% endelement %}
-            {% endslot %}
-        {% endelement %}
+    {% url 'account_signup' as action_url %}
+    <form method="post" action="{{ action_url }}" class="signup-form">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        {{ form.email }}
+      </div>
+      <div class="form-group">
+        {{ form.password1 }}
+      </div>
+      <div class="form-group">
+        {{ form.password2 }}
+      </div>
+      <div class="signup-btn">
+        <button type="submit" class="signup-button">Sign Up</button>
+      </div>
+      
+    </form>
     {% endif %}
+
     {% if PASSKEY_SIGNUP_ENABLED %}
-        {% element hr %}
-        {% endelement %}
-        {% element button href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
-            {% trans "Sign up using a passkey" %}
-        {% endelement %}
+    {% element hr class="divider" %}
+    {% endelement %}
+    {% element button class="passkey-button" href=signup_by_passkey_url tags="prominent,signup,outline,primary" %}
+    {% trans "Sign up using a passkey" %}
+    {% endelement %}
     {% endif %}
+
     {% if SOCIALACCOUNT_ENABLED %}
+    <div class="social-login">
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+    </div>
     {% endif %}
+</div>
 {% endblock content %}

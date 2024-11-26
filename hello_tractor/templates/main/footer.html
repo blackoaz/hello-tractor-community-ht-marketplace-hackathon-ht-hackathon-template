@@ -1,6 +1,7 @@
 {% load static %}
 {% load hosts %} 
  <!-- Footer -->
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
  <footer>
     <div class="footer-container">
         <div class="footer-section">
@@ -34,7 +35,8 @@
         <div class="footer-section">
             <div class="company-info">
                 <h1>Subscribe to our Newsletter</h1>
-                <form action="" method="post">
+                <form action="{% host_url 'homepage' host 'root' %}" method="post">
+                    {% csrf_token %}
                   <input type="email" name="email" id="email" placeholder="Enter your email">
                   <button title="subscribe" type="submit">
                     <i class="fa fa-paper-plane"></i>

@@ -3,5 +3,42 @@
 
 
 {% block content %}
- <h1>Sellers Dashboard</h1>
+<section class="dashboard-container">
+
+    <div class="dashboard-body">
+        {% include 'sellers/sellers_sidebar.html' %}
+        <main>
+            <div class="admin-dash">
+                <div class="data-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>New Tractors</h3>
+                        </div>
+                        <div class="card-body">
+                            <h2>{{ tractors }}</h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Old Tractors</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- <p>Number of users</p> -->
+                            <h2>{{ users }}</h2>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Approved</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- <p>Number of sellers</p> -->
+                            <h2>{{ sellers }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</section>
 {% endblock %}

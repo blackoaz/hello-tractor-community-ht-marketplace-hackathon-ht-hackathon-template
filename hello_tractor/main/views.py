@@ -1,12 +1,24 @@
+import json
+from bson import ObjectId
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from django.contrib import messages
 from pathlib import Path
+
+from .utils.utils import forward_email_to_seller_from_customer
+
+from .forms import NewsletterSubscriptionForm
+from sellers.forms import CustomerMessageForm
 from .mongo_db import fs
 from sellers.models import Tractor
 from django.db.models import F 
 from admin_panel.models import TractorBrand
 
 def homepage(request):
+    """
+    This is the main view function for the homepage,
+    takes in all the featured sales and logos for display
+    """
     # Fetch all tractors available for sale
     featured_tractors = Tractor.objects.filter(
         is_available=True, is_featured=True
@@ -14,14 +26,19 @@ def homepage(request):
         seller_name=F('tractor_seller__user__username')
     )
 
-    #Retrieving_brands images
-        # Save images from directory to MongoDB (optional)
-    # image_path = Path(__file__).resolve().parent.parent / "static/images/brands"
-    # for file in fs.find({"metadata.category": "tractor_brand"}):
-    #     print(f"Deleting brand image: {file.filename}")
-    #     fs.delete(file._id)
-    
-    # save_images_from_directory(image_path)
+    if request.method == 'POST':
+        # steps for subscribing users to our newsletters
+        newsletter_form = NewsletterSubscriptionForm(request.POST)
+        print(newsletter_form.is_valid())
+        if newsletter_form.is_valid():
+            email = newsletter_form.cleaned_data.get('email')
+            print("Email added for Subscription: ",email)
+            newsletter_form.save()
+            messages.success(request,'You have successfully been added to the newsletter')
+        else:
+            messages.error(request, "There was an error subscribing to our newsletter.")
+    else:
+        newsletter_form = NewsletterSubscriptionForm()
 
     # Fetching tractor brand images
     image_files = fs.find({"metadata.category": "tractor_brand"})
@@ -48,35 +65,39 @@ def homepage(request):
             'created': tractor.created,
         })
 
-    context = {'tractors': tractor_list,'images':images}
+    context = {
+        'tractors': tractor_list,
+        'images':images,
+        'newsletter_form':newsletter_form
+        }
     return render(request, 'main/homepage.html', context)
 
 
 
 # view function for filtered tractors
 def filtered_tractors(request):
+    """
+    View function for enabling users to filter tractors based on differnt
+    categoroies and preferences.
+    """
     brands = TractorBrand.objects.all()
     tractors = Tractor.objects.all()
 
     brand = request.GET.get('brand')
     if brand:
-        tractors = tractors.filter(brand__icontains=brand)
+        tractors = tractors.filter(model__icontains=brand)
 
     condition = request.GET.get('condition')
     if condition:
-        tractors = tractors.filter(condition__iexact=condition)
+        tractors = tractors.filter(condition__icontains=condition)
 
     transmission = request.GET.get('transmission')
     if transmission:
-        tractors = tractors.filter(transmission__iexact=transmission)
-
-    body_type = request.GET.get('body_type')
-    if body_type:
-        tractors = tractors.filter(body_type__icontains=body_type)
+        tractors = tractors.filter(transmission__icontains=transmission)
 
     fuel = request.GET.get('fuel')
     if fuel:
-        tractors = tractors.filter(fuel_type__iexact=fuel)
+        tractors = tractors.filter(fuel_type__icontains=fuel)
 
     year = request.GET.get('year')
     if year:
@@ -86,16 +107,21 @@ def filtered_tractors(request):
     if price:
         tractors = tractors.filter(price__lte=price)
     context={'tractors': tractors, 'brands':brands}
+    print(tractors)
     return render(request, 'main/filtered_tractors.html',context=context)
 
 # view function for serving tractor brand images
-def serve_image(request, filename):
-    print(f"Serving image: {filename}")
-    file = fs.find_one({"filename": filename})
-    if file:
-        return HttpResponse(file.read(), content_type=file.content_type)
-    print(f"Image not found: {filename}")
-    return HttpResponse("Image not found", status=404)
+def serve_image(request, file_id):
+    """
+    Serve an image from MongoDB GridFS by its ID.
+    """
+    try:
+        grid_out = fs.get(ObjectId(file_id))
+        response = HttpResponse(grid_out, content_type=grid_out.content_type)
+        response['Content-Disposition'] = f'inline; filename="{grid_out.filename}"'
+        return response
+    except Exception as e:
+        return HttpResponse(f"Error: {e}", status=404)
 
 def serve_brand_image(request, filename):
     """
@@ -130,14 +156,31 @@ def upload_image(request):
 
 
 # view function for vehicle_details
-def vehicle_details(request, uid):
-    return render(request, 'main/vehicle_details.html', {'uid': uid})
+import json
 
-# # view function for serving tractor brand images
-# def serve_image(request, filename):
-#     image_data = get_image(filename)
-#     if image_data:
-#         return HttpResponse(image_data, content_type=("image/jpeg",'image/png','image/webp','image/jpg')) 
-#     return HttpResponse("Image not found", status=404)
+def vehicle_details(request, uid):
+    try:
+        tractor = Tractor.objects.get(uid=uid)
+    except Tractor.DoesNotExist:
+        return HttpResponse("Tractor not found", status=404)
+
+    images = []
+    try:
+        for image in tractor.images.all():
+            grid_out = fs.find_one({'filename': image.mongo_filename})
+            if grid_out:
+                images.append({
+                    'url': f"/serve_image/{str(grid_out._id)}",
+                    'filename': grid_out.filename,
+                })
+    except Exception as e:
+        print(f"Error retrieving images: {e}")
+
+    context = {
+        'tractor': tractor,
+        'images': images,
+        'images_json': json.dumps(images),
+    }
+    return render(request, 'main/vehicle_details.html', context)
 
 
