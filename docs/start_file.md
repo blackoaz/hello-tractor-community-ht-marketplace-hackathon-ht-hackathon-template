@@ -57,6 +57,8 @@ GMAIL_ACCOUNT='your_gmail_account_here'
 # MongoDB Configuration
 MONGO_USER='your_mongo_username_here'
 MONGO_PASSWORD='your_mongo_password_here'
+BASE_URL = 'localhost:8000'
+BASE_URL_PROD = 'your_production_url'
 ```
 
 ---
