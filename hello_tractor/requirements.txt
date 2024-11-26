@@ -9,8 +9,10 @@ django-hosts==6.0
 django-phonenumber-field==8.0.0
 django-widget-tweaks==1.5.0
 dnspython==2.7.0
+gunicorn==23.0.0
 idna==3.10
 oauthlib==3.2.2
+packaging==24.2
 phonenumbers==8.13.50
 pillow==11.0.0
 psycopg2==2.9.10
