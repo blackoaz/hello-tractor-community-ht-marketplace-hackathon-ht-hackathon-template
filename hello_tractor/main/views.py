@@ -27,9 +27,9 @@ def homepage(request):
     )
 
     image_path = Path(__file__).resolve().parent.parent / "static/images/brands"
-    # for file in fs.find({"metadata.category": "tractor_brand"}):
-    #     print(f"Deleting brand image: {file.filename}")
-    #     fs.delete(file._id)
+    for file in fs.find({"metadata.category": "tractor_brand"}):
+        print(f"Deleting brand image: {file.filename}")
+        fs.delete(file._id)
     save_images_from_directory(image_path)
 
     if request.method == 'POST':
