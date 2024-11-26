@@ -67,8 +67,8 @@ class Tractor(Common):
         ('Mercy Ferguson','John Deere')
     )
     CONDITION = (
-        ('New Tractors','New Tractors'),
-        ('Used Tractors','Used Tractors'),
+        ('New Tractor','New Tractor'),
+        ('Used Tractor','Used Tractor'),
     )
 
     TRANSMISSION = (('Automatic','Automatic'),

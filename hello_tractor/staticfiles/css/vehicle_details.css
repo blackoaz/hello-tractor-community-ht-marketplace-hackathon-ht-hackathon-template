@@ -1,0 +1,304 @@
+
+/* Main Content */
+main {
+    max-width: 1280px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.vehicle-container {
+    display: grid;
+    gap: 2rem;
+}
+
+/* Image Section */
+.vehicle-image-section {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.image-container {
+    position: relative;
+    height: 400px;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-controls {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.nav-button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button:hover {
+    background-color: white;
+}
+
+/* Details Section */
+.vehicle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.vehicle-header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.meta-info {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    color: #6b7280;
+}
+
+.meta-info span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.meta-info img {
+    width: 16px;
+    height: 16px;
+}
+
+.price {
+    margin-top: 1rem;
+}
+
+.price span {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #22c55e;
+}
+
+/* Specs Card */
+.specs-card, .features-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.specs-card h2, .features-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.spec-item img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+}
+
+.label {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.value {
+    font-weight: 500;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.features-grid li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.features-grid img {
+    width: 16px;
+    height: 16px;
+}
+
+/* seller and customer contact card section */
+/* General styling for container */
+.seller-contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.seller-card,
+.customer-contact {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+.seller-card h2,
+.customer-contact h2 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Seller details */
+.seller-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.seller-logo img {
+    max-width: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seller-details h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.seller-details p {
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+    color: var(--muted-foreground);
+}
+
+.seller-details a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.seller-details a:hover {
+    color: var(--accent);
+}
+
+/* Button styling */
+.seller-actions button,
+.customer-contact button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.seller-actions button:hover,
+.customer-contact button:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+}
+
+.seller-actions button:active,
+.customer-contact button:active {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+}
+
+/* Customer contact form */
+.customer-contact .form-group {
+    margin-bottom: 1rem;
+}
+
+.customer-contact label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.customer-contact input,
+.customer-contact textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--input);
+    color: var(--foreground);
+    font-size: 1rem;
+}
+
+.customer-contact input:focus,
+.customer-contact textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--ring);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .vehicle-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .seller-contact-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .seller-card,
+    .customer-contact {
+        padding: 1.5rem;
+    }
+}

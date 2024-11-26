@@ -11,7 +11,7 @@ services:
       - .:/usr/app
 
   mongoDb:
-    image: mongo:5.0
+    image: mongo:6.0
     restart: always
     ports:
       - "27018:27017"
@@ -23,24 +23,20 @@ services:
       - .env
     volumes:
       - mongovolume:/data/db
-    healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
   mongo-express:
     image: mongo-express:latest
+    restart: always
     ports:
       - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongoDb:27017/  # Explicit connection string
-      ME_CONFIG_MONGODB_ADMINUSERNAME: $MONGO_USER
-      ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_PASSWORD
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
       ME_CONFIG_MONGODB_SERVER: mongoDb
       ME_CONFIG_BASICAUTH: "true"
-      ME_CONFIG_BASICAUTH_USERNAME: $MONGO_USER
-      ME_CONFIG_BASICAUTH_PASSWORD: $MONGO_PASSWORD
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_PASSWORD}
     depends_on:
       - mongoDb
 

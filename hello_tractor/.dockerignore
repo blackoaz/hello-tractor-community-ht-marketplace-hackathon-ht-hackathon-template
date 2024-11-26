@@ -4,8 +4,9 @@ __pycache__/
 *.pyo
 
 # Ignore virtual environments
-*.env
 .venv/
+venv/
+env/
 
 # Ignore other unnecessary files
 .git/
